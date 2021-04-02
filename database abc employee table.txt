@@ -1,0 +1,245 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.5.62 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| abc                |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.09 sec)
+
+mysql> use abc;
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_abc |
++---------------+
+| employee      |
+| employeeinfo  |
++---------------+
+2 rows in set (0.01 sec)
+
+mysql> desc employee;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| ename      | varchar(20) | YES  |     | NULL    |       |
+| age        | int(11)     | YES  |     | NULL    |       |
+| enumber    | int(11)     | YES  |     | NULL    |       |
+| Department | varchar(20) | YES  |     | NULL    |       |
+| city       | varchar(20) | YES  |     | NULL    |       |
+| salary     | int(11)     | YES  |     | NULL    |       |
+| gender     | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+7 rows in set (0.15 sec)
+
+mysql> select * from employee;
++--------------+------+---------+---------------+--------+--------+--------+
+| ename        | age  | enumber | Department    | city   | salary | gender |
++--------------+------+---------+---------------+--------+--------+--------+
+| shekhar      |   26 |    6675 | Manufacturing | vizag  |  40000 | male   |
+| sai          |   25 |    6789 | computers     | kerala |  30000 | male   |
+| sathwika     |   25 |    6984 | electronics   | pune   |  45000 | NULL   |
+| sathwik      |   35 |    6984 | Manufacturing | goa    |  45000 | NULL   |
+| prashath     |   35 |    6678 | civils        | vizag  |  55000 | NULL   |
+| prashathi    |   34 |    6678 | electronics   | kerala |  21000 | NULL   |
+| vyshnavi     |   29 |    6667 | Manufacturing | vizag  |  25000 | female |
+| ajay         |   23 |    6664 | science       | pune   |  38000 | NULL   |
+| sandhya rani |   24 |    6667 | electronics   | kerala |  35000 | NULL   |
++--------------+------+---------+---------------+--------+--------+--------+
+9 rows in set (0.02 sec)
+
+mysql> create table employee(enumber int unique key,name varchar(20),age int);
+ERROR 1050 (42S01): Table 'employee' already exists
+mysql> create table employee1(enumber int unique key,name varchar(20),age int);
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> insert into employee1 values(5678,'shiva',34);
+Query OK, 1 row affected (0.32 sec)
+
+mysql> insert into employee1 values(5989,'sai',24);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee1 values(5678,'ganesh',43);
+ERROR 1062 (23000): Duplicate entry '5678' for key 'enumber'
+mysql> insert into employee1 values(7864,'ganesh',43);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee1 values(8975,'hari',25);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> select * from employee1;
++---------+--------+------+
+| enumber | name   | age  |
++---------+--------+------+
+|    5678 | shiva  |   34 |
+|    5989 | sai    |   24 |
+|    7864 | ganesh |   43 |
+|    8975 | hari   |   25 |
++---------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> desc employee1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| enumber | int(11)     | YES  | UNI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| age     | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> create table employee(enumber int unique key not null,name varchar(20) not null ,age int);
+ERROR 1050 (42S01): Table 'employee' already exists
+mysql> create table employee1(enumber int unique key not null,name varchar(20) not null ,age int);
+ERROR 1050 (42S01): Table 'employee1' already exists
+mysql> alter table employee1 modify column enumber int(20);
+Query OK, 0 rows affected (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee1;
++---------+--------+------+
+| enumber | name   | age  |
++---------+--------+------+
+|    5678 | shiva  |   34 |
+|    5989 | sai    |   24 |
+|    7864 | ganesh |   43 |
+|    8975 | hari   |   25 |
++---------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> desc employee1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| enumber | int(20)     | YES  | UNI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| age     | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> create table employee2(enumber int unique key not null,name varchar(20) not null ,age int);
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> insert into employee1 values(8975,'hari',25);
+ERROR 1062 (23000): Duplicate entry '8975' for key 'enumber'
+mysql> insert into employee1 values(1235,'hari',25);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employee1 values(4568,'vyshu',45);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into employee1 values(9876,'vyshu',45);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> select * from employee2;
+Empty set (0.00 sec)
+
+mysql> insert into employee2 values(9876,'vyshu',45);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employee2 values(4568,'hari',45);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into employee2 values(1234,'shiva',47);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select * from employee2;
++---------+-------+------+
+| enumber | name  | age  |
++---------+-------+------+
+|    1234 | shiva |   47 |
+|    4568 | hari  |   45 |
+|    9876 | vyshu |   45 |
++---------+-------+------+
+3 rows in set (0.00 sec)
+
+mysql> desc employee2;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| enumber | int(11)     | NO   | PRI | NULL    |       |
+| name    | varchar(20) | NO   |     | NULL    |       |
+| age     | int(11)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> create table employee2(enumber int unique key not null,name varchar(20) not null ,age int not null);
+ERROR 1050 (42S01): Table 'employee2' already exists
+mysql> create table employee3(enumber int unique key not null,name varchar(20) not null ,age int not null);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc employee3;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| enumber | int(11)     | NO   | PRI | NULL    |       |
+| name    | varchar(20) | NO   |     | NULL    |       |
+| age     | int(11)     | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> create table employee2(enumber int primary key,name varchar(20) not null ,age int not null);
+ERROR 1050 (42S01): Table 'employee2' already exists
+mysql> create table employee4(enumber int primary key,name varchar(20) not null ,age int not null);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc employee4;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| enumber | int(11)     | NO   | PRI | NULL    |       |
+| name    | varchar(20) | NO   |     | NULL    |       |
+| age     | int(11)     | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> create table employee4(enumber int primary key,name varchar(20) not null ,age int not null);
+ERROR 1050 (42S01): Table 'employee4' already exists
+mysql> create table employee5(enumber int primary key,name varchar(20) not null ,age int not null);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into  employee4 values(1234,'vyshu',45);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into  employee4 values(1234,'sai',24);
+ERROR 1062 (23000): Duplicate entry '1234' for key 'PRIMARY'
+mysql> insert into  employee4 values(2345,'sai',24);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into  employee4 values(5675,'shiva',47);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> desc employee4;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| enumber | int(11)     | NO   | PRI | NULL    |       |
+| name    | varchar(20) | NO   |     | NULL    |       |
+| age     | int(11)     | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select * from employee4;
++---------+-------+-----+
+| enumber | name  | age |
++---------+-------+-----+
+|    1234 | vyshu |  45 |
+|    2345 | sai   |  24 |
+|    5675 | shiva |  47 |
++---------+-------+-----+
+3 rows in set (0.00 sec)

@@ -1,0 +1,1103 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| abc                |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.28 sec)
+
+mysql> use abc;
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_abc |
++---------------+
+| employeeinfo  |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> create table employee(ename varchar(20),age int,enumber int,Department varchar(20),city varchar(20),salary int);
+Query OK, 0 rows affected (0.55 sec)
+
+mysql> insert into employee values('shekhar',26,6675,'Manufacturing','vizag',40000);
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into employee values('navya',28,6765,'civils','hyb',35000);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into employee values('hema',29,6005,'electronics','hyb',35000);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into employee values('sai',25,6789,'computers','bang',30000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employee values('sathwika',25,6984,'electronics','pune',45000);
+Query OK, 1 row affected (1.49 sec)
+
+mysql> insert into employee values('sathwik'35,6984,'Manufacturing','goa',45000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '35,6984,'Manufacturing','goa',45000)' at line 1
+mysql> insert into employee values('sathwik',35,6984,'Manufacturing','goa',45000);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into employee values('prashath',35,6678,'civils','vizag',55000);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into employee values('prashathi',34,6678,'electronics','kerala',21000);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into employee values('Navya',24,6678,'computers','kerala',25000);
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into employee values('Hema',28,6568,'Manufacturing','hyb',28000);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> show tables;
++---------------+
+| Tables_in_abc |
++---------------+
+| employee      |
+| employeeinfo  |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| hema      |   29 |    6005 | electronics   | hyb    |  35000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| Hema      |   28 |    6568 | Manufacturing | hyb    |  28000 |
++-----------+------+---------+---------------+--------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select ename,enumber from employee;
++-----------+---------+
+| ename     | enumber |
++-----------+---------+
+| shekhar   |    6675 |
+| navya     |    6765 |
+| hema      |    6005 |
+| sai       |    6789 |
+| sathwika  |    6984 |
+| sathwik   |    6984 |
+| prashath  |    6678 |
+| prashathi |    6678 |
+| Navya     |    6678 |
+| Hema      |    6568 |
++-----------+---------+
+10 rows in set (0.10 sec)
+
+mysql> select name,enumber from employee where name='sathwika';
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select name,enumber from employee where ename='sathwika';
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select name,enumber from employee, where ename='sathwika';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where ename='sathwika'' at line 1
+mysql> select name,enumber from employee where ename='hema';
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select name,enumber from employee;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select ename,enumber from employee where ename='sathwika';
++----------+---------+
+| ename    | enumber |
++----------+---------+
+| sathwika |    6984 |
++----------+---------+
+1 row in set (0.03 sec)
+
+mysql> select ename,enumber,Department from employee where ename='sathwika';
++----------+---------+-------------+
+| ename    | enumber | Department  |
++----------+---------+-------------+
+| sathwika |    6984 | electronics |
++----------+---------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select ename,enumber,Department from employee;
++-----------+---------+---------------+
+| ename     | enumber | Department    |
++-----------+---------+---------------+
+| shekhar   |    6675 | Manufacturing |
+| navya     |    6765 | civils        |
+| hema      |    6005 | electronics   |
+| sai       |    6789 | computers     |
+| sathwika  |    6984 | electronics   |
+| sathwik   |    6984 | Manufacturing |
+| prashath  |    6678 | civils        |
+| prashathi |    6678 | electronics   |
+| Navya     |    6678 | computers     |
+| Hema      |    6568 | Manufacturing |
++-----------+---------+---------------+
+10 rows in set (0.00 sec)
+
+mysql> select ename,age,enumber,Department from employee where enumber>=6890 && enumber<=6910;
+Empty set (0.02 sec)
+
+mysql> select ename,age,enumber,Department from employee where enumber>=6560 && enumber<=6990;
++-----------+------+---------+---------------+
+| ename     | age  | enumber | Department    |
++-----------+------+---------+---------------+
+| shekhar   |   26 |    6675 | Manufacturing |
+| navya     |   28 |    6765 | civils        |
+| sai       |   25 |    6789 | computers     |
+| sathwika  |   25 |    6984 | electronics   |
+| sathwik   |   35 |    6984 | Manufacturing |
+| prashath  |   35 |    6678 | civils        |
+| prashathi |   34 |    6678 | electronics   |
+| Navya     |   24 |    6678 | computers     |
+| Hema      |   28 |    6568 | Manufacturing |
++-----------+------+---------+---------------+
+9 rows in set (0.00 sec)
+
+mysql> select ename,age,enumber,Department from employee where enumber>=6560 && enumber<=6760;
++-----------+------+---------+---------------+
+| ename     | age  | enumber | Department    |
++-----------+------+---------+---------------+
+| shekhar   |   26 |    6675 | Manufacturing |
+| prashath  |   35 |    6678 | civils        |
+| prashathi |   34 |    6678 | electronics   |
+| Navya     |   24 |    6678 | computers     |
+| Hema      |   28 |    6568 | Manufacturing |
++-----------+------+---------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employee values('vyshnavi',21,6667,'Manufacturing','vizag',25000);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from employee;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| hema      |   29 |    6005 | electronics   | hyb    |  35000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| Hema      |   28 |    6568 | Manufacturing | hyb    |  28000 |
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
++-----------+------+---------+---------------+--------+--------+
+11 rows in set (0.00 sec)
+
+mysql> select ename,enumber from employee where city!='hyb';
++-----------+---------+
+| ename     | enumber |
++-----------+---------+
+| shekhar   |    6675 |
+| sai       |    6789 |
+| sathwika  |    6984 |
+| sathwik   |    6984 |
+| prashath  |    6678 |
+| prashathi |    6678 |
+| Navya     |    6678 |
+| vyshnavi  |    6667 |
++-----------+---------+
+8 rows in set (0.00 sec)
+
+mysql> select ename,enumber,city from employee where city!='hyb';
++-----------+---------+--------+
+| ename     | enumber | city   |
++-----------+---------+--------+
+| shekhar   |    6675 | vizag  |
+| sai       |    6789 | bang   |
+| sathwika  |    6984 | pune   |
+| sathwik   |    6984 | goa    |
+| prashath  |    6678 | vizag  |
+| prashathi |    6678 | kerala |
+| Navya     |    6678 | kerala |
+| vyshnavi  |    6667 | vizag  |
++-----------+---------+--------+
+8 rows in set (0.03 sec)
+
+mysql> select ename,enumber,city from employee where city='hyb'or city='pune';
++----------+---------+------+
+| ename    | enumber | city |
++----------+---------+------+
+| navya    |    6765 | hyb  |
+| hema     |    6005 | hyb  |
+| sathwika |    6984 | pune |
+| Hema     |    6568 | hyb  |
++----------+---------+------+
+4 rows in set (0.00 sec)
+
+mysql> select ename,enumber,city from employee where city='hyb' and city='pune';
+Empty set (0.00 sec)
+
+mysql> select ename,enumber,city from employee where city='hyb' or city='pune';
++----------+---------+------+
+| ename    | enumber | city |
++----------+---------+------+
+| navya    |    6765 | hyb  |
+| hema     |    6005 | hyb  |
+| sathwika |    6984 | pune |
+| Hema     |    6568 | hyb  |
++----------+---------+------+
+4 rows in set (0.00 sec)
+
+mysql> select ename,enumber,city from employee where age>=22 and age<=35;
++-----------+---------+--------+
+| ename     | enumber | city   |
++-----------+---------+--------+
+| shekhar   |    6675 | vizag  |
+| navya     |    6765 | hyb    |
+| hema      |    6005 | hyb    |
+| sai       |    6789 | bang   |
+| sathwika  |    6984 | pune   |
+| sathwik   |    6984 | goa    |
+| prashath  |    6678 | vizag  |
+| prashathi |    6678 | kerala |
+| Navya     |    6678 | kerala |
+| Hema      |    6568 | hyb    |
++-----------+---------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select ename,age,enumber,city from employee where age>=22 and age<=35;
++-----------+------+---------+--------+
+| ename     | age  | enumber | city   |
++-----------+------+---------+--------+
+| shekhar   |   26 |    6675 | vizag  |
+| navya     |   28 |    6765 | hyb    |
+| hema      |   29 |    6005 | hyb    |
+| sai       |   25 |    6789 | bang   |
+| sathwika  |   25 |    6984 | pune   |
+| sathwik   |   35 |    6984 | goa    |
+| prashath  |   35 |    6678 | vizag  |
+| prashathi |   34 |    6678 | kerala |
+| Navya     |   24 |    6678 | kerala |
+| Hema      |   28 |    6568 | hyb    |
++-----------+------+---------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select ename,age order by age;
+ERROR 1054 (42S22): Unknown column 'ename' in 'field list'
+mysql> select ename,age from employee order by age;
++-----------+------+
+| ename     | age  |
++-----------+------+
+| vyshnavi  |   21 |
+| Navya     |   24 |
+| sai       |   25 |
+| sathwika  |   25 |
+| shekhar   |   26 |
+| navya     |   28 |
+| Hema      |   28 |
+| hema      |   29 |
+| prashathi |   34 |
+| prashath  |   35 |
+| sathwik   |   35 |
++-----------+------+
+11 rows in set (0.00 sec)
+
+mysql> select * from employee where ename='sathwik';
++---------+------+---------+---------------+------+--------+
+| ename   | age  | enumber | Department    | city | salary |
++---------+------+---------+---------------+------+--------+
+| sathwik |   35 |    6984 | Manufacturing | goa  |  45000 |
++---------+------+---------+---------------+------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee order by age;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| Hema      |   28 |    6568 | Manufacturing | hyb    |  28000 |
+| hema      |   29 |    6005 | electronics   | hyb    |  35000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
++-----------+------+---------+---------------+--------+--------+
+11 rows in set (0.20 sec)
+
+mysql> select * from employee order by age desc;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| hema      |   29 |    6005 | electronics   | hyb    |  35000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| Hema      |   28 |    6568 | Manufacturing | hyb    |  28000 |
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
++-----------+------+---------+---------------+--------+--------+
+11 rows in set (0.22 sec)
+
+mysql> select * from employee order by ename;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| hema      |   29 |    6005 | electronics   | hyb    |  35000 |
+| Hema      |   28 |    6568 | Manufacturing | hyb    |  28000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
++-----------+------+---------+---------------+--------+--------+
+11 rows in set (0.00 sec)
+
+mysql> select * from employee order by ename desc;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| hema      |   29 |    6005 | electronics   | hyb    |  35000 |
+| Hema      |   28 |    6568 | Manufacturing | hyb    |  28000 |
++-----------+------+---------+---------------+--------+--------+
+11 rows in set (0.00 sec)
+
+mysql> select * from employee order by enumber;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| hema      |   29 |    6005 | electronics   | hyb    |  35000 |
+| Hema      |   28 |    6568 | Manufacturing | hyb    |  28000 |
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
++-----------+------+---------+---------------+--------+--------+
+11 rows in set (0.00 sec)
+
+mysql> select * from employee order by city;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| hema      |   29 |    6005 | electronics   | hyb    |  35000 |
+| Hema      |   28 |    6568 | Manufacturing | hyb    |  28000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
++-----------+------+---------+---------------+--------+--------+
+11 rows in set (0.00 sec)
+
+mysql> update employee set ename='ajay' where ename='hema';
+Query OK, 2 rows affected (0.19 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from employee;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| ajay      |   29 |    6005 | electronics   | hyb    |  35000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| ajay      |   28 |    6568 | Manufacturing | hyb    |  28000 |
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
++-----------+------+---------+---------------+--------+--------+
+11 rows in set (0.00 sec)
+
+mysql> drop from employee where ename='ajay';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from employee where ename='ajay'' at line 1
+mysql> drop ename from employee where ename='ajay';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ename from employee where ename='ajay'' at line 1
+mysql> delete from employee where ename='ajay';
+Query OK, 2 rows affected (0.14 sec)
+
+mysql> select * from employee;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
++-----------+------+---------+---------------+--------+--------+
+9 rows in set (0.02 sec)
+
+mysql> insert into employee values('ajay',23,6664,'science','pune',38000);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select * from employee;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
+| ajay      |   23 |    6664 | science       | pune   |  38000 |
++-----------+------+---------+---------------+--------+--------+
+10 rows in set (0.03 sec)
+
+mysql> select min(salary) from employee;
++-------------+
+| min(salary) |
++-------------+
+|       21000 |
++-------------+
+1 row in set (0.08 sec)
+
+mysql> select min(salary),name from employee;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select min(salary),ename from employee;
++-------------+---------+
+| min(salary) | ename   |
++-------------+---------+
+|       21000 | shekhar |
++-------------+---------+
+1 row in set (0.02 sec)
+
+mysql> select max(salary),ename from employee;
++-------------+---------+
+| max(salary) | ename   |
++-------------+---------+
+|       55000 | shekhar |
++-------------+---------+
+1 row in set (0.11 sec)
+
+mysql> select max(salary) as high_salary  from employee;
++-------------+
+| high_salary |
++-------------+
+|       55000 |
++-------------+
+1 row in set (0.11 sec)
+
+mysql> select min(salary) as low_salary  from employee;
++------------+
+| low_salary |
++------------+
+|      21000 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) as average_salary from employee;
++----------------+
+| average_salary |
++----------------+
+|     35900.0000 |
++----------------+
+1 row in set (0.07 sec)
+
+mysql> select sum(salary) as total_salary from employee;
++--------------+
+| total_salary |
++--------------+
+|       359000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(salary) as total_salary from employee where Department=Manufacturing;
+ERROR 1054 (42S22): Unknown column 'Manufacturing' in 'where clause'
+mysql> select sum(salary) as total_salary from employee where Department='Manufacturing';
++--------------+
+| total_salary |
++--------------+
+|       110000 |
++--------------+
+1 row in set (0.02 sec)
+
+mysql> select sum(salary) as total_salary,Department from employee where Department='Manufacturing';
++--------------+---------------+
+| total_salary | Department    |
++--------------+---------------+
+|       110000 | Manufacturing |
++--------------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) as total_salary,Department from employee where Department='Manufacturing';
++--------------+---------------+
+| total_salary | Department    |
++--------------+---------------+
+|   36666.6667 | Manufacturing |
++--------------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) as average_salary,Department from employee where Department='manufacturing';
++----------------+---------------+
+| average_salary | Department    |
++----------------+---------------+
+|     36666.6667 | Manufacturing |
++----------------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) as average_salary,Department from employee where Department='civils';
++----------------+------------+
+| average_salary | Department |
++----------------+------------+
+|     45000.0000 | civils     |
++----------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) as average_salary,Department from employee where Department='electronics';
++----------------+-------------+
+| average_salary | Department  |
++----------------+-------------+
+|     33000.0000 | electronics |
++----------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) as average_salary,Department from employee where Department='computers';
++----------------+------------+
+| average_salary | Department |
++----------------+------------+
+|     27500.0000 | computers  |
++----------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) as average_salary,Department from employee where Department='science';
++----------------+------------+
+| average_salary | Department |
++----------------+------------+
+|     38000.0000 | science    |
++----------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary),min(salary),avg(salary),sum(salary);
+ERROR 1054 (42S22): Unknown column 'salary' in 'field list'
+mysql> select max(salary),min(salary),avg(salary),sum(salary) from employee;
++-------------+-------------+-------------+-------------+
+| max(salary) | min(salary) | avg(salary) | sum(salary) |
++-------------+-------------+-------------+-------------+
+|       55000 |       21000 |  35900.0000 |      359000 |
++-------------+-------------+-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from employee;
++----------+
+| count(*) |
++----------+
+|       10 |
++----------+
+1 row in set (0.10 sec)
+
+mysql> select sum(salary) from employee group by gender;
+ERROR 1054 (42S22): Unknown column 'gender' in 'group statement'
+mysql> select sum(salary) from employee group by Department;
++-------------+
+| sum(salary) |
++-------------+
+|       90000 |
+|       55000 |
+|       66000 |
+|      110000 |
+|       38000 |
++-------------+
+5 rows in set (0.13 sec)
+
+mysql> select department,sum(salary) from employee group by Department;
++---------------+-------------+
+| department    | sum(salary) |
++---------------+-------------+
+| civils        |       90000 |
+| computers     |       55000 |
+| electronics   |       66000 |
+| Manufacturing |      110000 |
+| science       |       38000 |
++---------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select department,sum(salary) from employee group by city;
++---------------+-------------+
+| department    | sum(salary) |
++---------------+-------------+
+| computers     |       30000 |
+| Manufacturing |       45000 |
+| civils        |       35000 |
+| electronics   |       46000 |
+| electronics   |       83000 |
+| Manufacturing |      120000 |
++---------------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select city,department,sum(salary) from employee group by city;
++--------+---------------+-------------+
+| city   | department    | sum(salary) |
++--------+---------------+-------------+
+| bang   | computers     |       30000 |
+| goa    | Manufacturing |       45000 |
+| hyb    | civils        |       35000 |
+| kerala | electronics   |       46000 |
+| pune   | electronics   |       83000 |
+| vizag  | Manufacturing |      120000 |
++--------+---------------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from employee;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| navya     |   28 |    6765 | civils        | hyb    |  35000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| Navya     |   24 |    6678 | computers     | kerala |  25000 |
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
+| ajay      |   23 |    6664 | science       | pune   |  38000 |
++-----------+------+---------+---------------+--------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select city,avg(marks) from employee group by city;
+ERROR 1054 (42S22): Unknown column 'marks' in 'field list'
+mysql> select city,avg(salary) from employee group by city;
++--------+-------------+
+| city   | avg(salary) |
++--------+-------------+
+| bang   |  30000.0000 |
+| goa    |  45000.0000 |
+| hyb    |  35000.0000 |
+| kerala |  23000.0000 |
+| pune   |  41500.0000 |
+| vizag  |  40000.0000 |
++--------+-------------+
+6 rows in set (0.02 sec)
+
+mysql> select * from employee where name like='s%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='s%'' at line 1
+mysql> select * from employee where name like s%';
+    '>
+    '> select * from employee where name like s%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%';
+
+select * from employee where name like s%'' at line 1
+mysql> select * from employee where name like 's%';
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+mysql> select * from employee where  ename like 's%';
++----------+------+---------+---------------+-------+--------+
+| ename    | age  | enumber | Department    | city  | salary |
++----------+------+---------+---------------+-------+--------+
+| shekhar  |   26 |    6675 | Manufacturing | vizag |  40000 |
+| sai      |   25 |    6789 | computers     | bang  |  30000 |
+| sathwika |   25 |    6984 | electronics   | pune  |  45000 |
+| sathwik  |   35 |    6984 | Manufacturing | goa   |  45000 |
++----------+------+---------+---------------+-------+--------+
+4 rows in set (0.04 sec)
+
+mysql> select * from employee where  ename like 'n%';
++-------+------+---------+------------+--------+--------+
+| ename | age  | enumber | Department | city   | salary |
++-------+------+---------+------------+--------+--------+
+| navya |   28 |    6765 | civils     | hyb    |  35000 |
+| Navya |   24 |    6678 | computers  | kerala |  25000 |
++-------+------+---------+------------+--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> delete ename from employee where ename='navya';
+ERROR 1109 (42S02): Unknown table 'ename' in MULTI DELETE
+mysql> delete from employee where ename='navya';
+Query OK, 2 rows affected (0.14 sec)
+
+mysql> select * from employee;
++-----------+------+---------+---------------+--------+--------+
+| ename     | age  | enumber | Department    | city   | salary |
++-----------+------+---------+---------------+--------+--------+
+| shekhar   |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| sai       |   25 |    6789 | computers     | bang   |  30000 |
+| sathwika  |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik   |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath  |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi |   34 |    6678 | electronics   | kerala |  21000 |
+| vyshnavi  |   21 |    6667 | Manufacturing | vizag  |  25000 |
+| ajay      |   23 |    6664 | science       | pune   |  38000 |
++-----------+------+---------+---------------+--------+--------+
+8 rows in set (0.00 sec)
+
+mysql> insert into employee values('sandhya rani',24,6667,'electronics','bang',35000);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from employee;
++--------------+------+---------+---------------+--------+--------+
+| ename        | age  | enumber | Department    | city   | salary |
++--------------+------+---------+---------------+--------+--------+
+| shekhar      |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| sai          |   25 |    6789 | computers     | bang   |  30000 |
+| sathwika     |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik      |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath     |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi    |   34 |    6678 | electronics   | kerala |  21000 |
+| vyshnavi     |   21 |    6667 | Manufacturing | vizag  |  25000 |
+| ajay         |   23 |    6664 | science       | pune   |  38000 |
+| sandhya rani |   24 |    6667 | electronics   | bang   |  35000 |
++--------------+------+---------+---------------+--------+--------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set city='kerala' where name='sandhya  rani';
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+mysql> update employee set city='kerala' where ename='sandhya  rani';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employee set city='kerala' where city='bang';
+Query OK, 2 rows affected (0.06 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from employee;
++--------------+------+---------+---------------+--------+--------+
+| ename        | age  | enumber | Department    | city   | salary |
++--------------+------+---------+---------------+--------+--------+
+| shekhar      |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| sai          |   25 |    6789 | computers     | kerala |  30000 |
+| sathwika     |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik      |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath     |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi    |   34 |    6678 | electronics   | kerala |  21000 |
+| vyshnavi     |   21 |    6667 | Manufacturing | vizag  |  25000 |
+| ajay         |   23 |    6664 | science       | pune   |  38000 |
+| sandhya rani |   24 |    6667 | electronics   | kerala |  35000 |
++--------------+------+---------+---------------+--------+--------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set age='29' where ename='vyshnavi';
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++--------------+------+---------+---------------+--------+--------+
+| ename        | age  | enumber | Department    | city   | salary |
++--------------+------+---------+---------------+--------+--------+
+| shekhar      |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| sai          |   25 |    6789 | computers     | kerala |  30000 |
+| sathwika     |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik      |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath     |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi    |   34 |    6678 | electronics   | kerala |  21000 |
+| vyshnavi     |   29 |    6667 | Manufacturing | vizag  |  25000 |
+| ajay         |   23 |    6664 | science       | pune   |  38000 |
+| sandhya rani |   24 |    6667 | electronics   | kerala |  35000 |
++--------------+------+---------+---------------+--------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select * from employee  where ename='%s%';
+Empty set (0.00 sec)
+
+mysql> select * from employee  where ename like '%s%';
++--------------+------+---------+---------------+--------+--------+
+| ename        | age  | enumber | Department    | city   | salary |
++--------------+------+---------+---------------+--------+--------+
+| shekhar      |   26 |    6675 | Manufacturing | vizag  |  40000 |
+| sai          |   25 |    6789 | computers     | kerala |  30000 |
+| sathwika     |   25 |    6984 | electronics   | pune   |  45000 |
+| sathwik      |   35 |    6984 | Manufacturing | goa    |  45000 |
+| prashath     |   35 |    6678 | civils        | vizag  |  55000 |
+| prashathi    |   34 |    6678 | electronics   | kerala |  21000 |
+| vyshnavi     |   29 |    6667 | Manufacturing | vizag  |  25000 |
+| sandhya rani |   24 |    6667 | electronics   | kerala |  35000 |
++--------------+------+---------+---------------+--------+--------+
+8 rows in set (0.00 sec)
+
+mysql> select * from employee  where ename like '%s';
+Empty set (0.00 sec)
+
+mysql> select * from employee  where ename like '%i';
++--------------+------+---------+---------------+--------+--------+
+| ename        | age  | enumber | Department    | city   | salary |
++--------------+------+---------+---------------+--------+--------+
+| sai          |   25 |    6789 | computers     | kerala |  30000 |
+| prashathi    |   34 |    6678 | electronics   | kerala |  21000 |
+| vyshnavi     |   29 |    6667 | Manufacturing | vizag  |  25000 |
+| sandhya rani |   24 |    6667 | electronics   | kerala |  35000 |
++--------------+------+---------+---------------+--------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee  where ename like 's__i%';
+Empty set (0.00 sec)
+
+mysql> select * from employee  where ename like 's_i%';
++-------+------+---------+------------+--------+--------+
+| ename | age  | enumber | Department | city   | salary |
++-------+------+---------+------------+--------+--------+
+| sai   |   25 |    6789 | computers  | kerala |  30000 |
++-------+------+---------+------------+--------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee  where Department like 'c%';
++----------+------+---------+------------+--------+--------+
+| ename    | age  | enumber | Department | city   | salary |
++----------+------+---------+------------+--------+--------+
+| sai      |   25 |    6789 | computers  | kerala |  30000 |
+| prashath |   35 |    6678 | civils     | vizag  |  55000 |
++----------+------+---------+------------+--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select ename from employee  where Department like 'c%';
++----------+
+| ename    |
++----------+
+| sai      |
+| prashath |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> select ename from employee  where Department like 'm%';
++----------+
+| ename    |
++----------+
+| shekhar  |
+| sathwik  |
+| vyshnavi |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> select ename from employee  where Department like 'e%';
++--------------+
+| ename        |
++--------------+
+| sathwika     |
+| prashathi    |
+| sandhya rani |
++--------------+
+3 rows in set (0.00 sec)
+
+mysql> select ename,Department from employee  where Department like 'e%';
++--------------+-------------+
+| ename        | Department  |
++--------------+-------------+
+| sathwika     | electronics |
+| prashathi    | electronics |
+| sandhya rani | electronics |
++--------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select ename,department from employee  where Department like 'm%';
++----------+---------------+
+| ename    | department    |
++----------+---------------+
+| shekhar  | Manufacturing |
+| sathwik  | Manufacturing |
+| vyshnavi | Manufacturing |
++----------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> alter table employee add gender varchar(20);
+Query OK, 9 rows affected (0.49 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| ename      | varchar(20) | YES  |     | NULL    |       |
+| age        | int(11)     | YES  |     | NULL    |       |
+| enumber    | int(11)     | YES  |     | NULL    |       |
+| Department | varchar(20) | YES  |     | NULL    |       |
+| city       | varchar(20) | YES  |     | NULL    |       |
+| salary     | int(11)     | YES  |     | NULL    |       |
+| gender     | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+7 rows in set (0.21 sec)
+
+mysql> select employee set gender='female' where ename='vyshanvi';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'set gender='female' where ename='vyshanvi'' at line 1
+mysql> select * from employee;
++--------------+------+---------+---------------+--------+--------+--------+
+| ename        | age  | enumber | Department    | city   | salary | gender |
++--------------+------+---------+---------------+--------+--------+--------+
+| shekhar      |   26 |    6675 | Manufacturing | vizag  |  40000 | NULL   |
+| sai          |   25 |    6789 | computers     | kerala |  30000 | NULL   |
+| sathwika     |   25 |    6984 | electronics   | pune   |  45000 | NULL   |
+| sathwik      |   35 |    6984 | Manufacturing | goa    |  45000 | NULL   |
+| prashath     |   35 |    6678 | civils        | vizag  |  55000 | NULL   |
+| prashathi    |   34 |    6678 | electronics   | kerala |  21000 | NULL   |
+| vyshnavi     |   29 |    6667 | Manufacturing | vizag  |  25000 | NULL   |
+| ajay         |   23 |    6664 | science       | pune   |  38000 | NULL   |
+| sandhya rani |   24 |    6667 | electronics   | kerala |  35000 | NULL   |
++--------------+------+---------+---------------+--------+--------+--------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set gender='female' where ename='vyshnavi';
+Query OK, 1 row affected (0.13 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++--------------+------+---------+---------------+--------+--------+--------+
+| ename        | age  | enumber | Department    | city   | salary | gender |
++--------------+------+---------+---------------+--------+--------+--------+
+| shekhar      |   26 |    6675 | Manufacturing | vizag  |  40000 | NULL   |
+| sai          |   25 |    6789 | computers     | kerala |  30000 | NULL   |
+| sathwika     |   25 |    6984 | electronics   | pune   |  45000 | NULL   |
+| sathwik      |   35 |    6984 | Manufacturing | goa    |  45000 | NULL   |
+| prashath     |   35 |    6678 | civils        | vizag  |  55000 | NULL   |
+| prashathi    |   34 |    6678 | electronics   | kerala |  21000 | NULL   |
+| vyshnavi     |   29 |    6667 | Manufacturing | vizag  |  25000 | female |
+| ajay         |   23 |    6664 | science       | pune   |  38000 | NULL   |
+| sandhya rani |   24 |    6667 | electronics   | kerala |  35000 | NULL   |
++--------------+------+---------+---------------+--------+--------+--------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set gender='female' where ename='prashanthi';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from employee;
++--------------+------+---------+---------------+--------+--------+--------+
+| ename        | age  | enumber | Department    | city   | salary | gender |
++--------------+------+---------+---------------+--------+--------+--------+
+| shekhar      |   26 |    6675 | Manufacturing | vizag  |  40000 | NULL   |
+| sai          |   25 |    6789 | computers     | kerala |  30000 | NULL   |
+| sathwika     |   25 |    6984 | electronics   | pune   |  45000 | NULL   |
+| sathwik      |   35 |    6984 | Manufacturing | goa    |  45000 | NULL   |
+| prashath     |   35 |    6678 | civils        | vizag  |  55000 | NULL   |
+| prashathi    |   34 |    6678 | electronics   | kerala |  21000 | NULL   |
+| vyshnavi     |   29 |    6667 | Manufacturing | vizag  |  25000 | female |
+| ajay         |   23 |    6664 | science       | pune   |  38000 | NULL   |
+| sandhya rani |   24 |    6667 | electronics   | kerala |  35000 | NULL   |
++--------------+------+---------+---------------+--------+--------+--------+
+9 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

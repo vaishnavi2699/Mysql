@@ -1,0 +1,450 @@
+mysql> CREATE TABLE IF NOT EXISTS salespeople (
+    -> snum INT NOT NULL,
+    -> sname VARCHAR(30) NOT NULL,
+    -> city VARCHAR(30) NOT NULL,
+    -> comm DECIMAL(4,2) NOT NULL,
+    ->
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 7
+mysql> create table salespeople(snum int primary key,sname varchar(20) not null,city varchar(20) not null,comm decimal(4,2) not null);
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> desc salespeople;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| snum  | int(11)      | NO   | PRI | NULL    |       |
+| sname | varchar(20)  | NO   |     | NULL    |       |
+| city  | varchar(20)  | NO   |     | NULL    |       |
+| comm  | decimal(4,2) | NO   |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+4 rows in set (0.11 sec)
+
+mysql> INSERT INTO salespeople VALUES (1002, 'Serres ','San Jose', .13);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO salespeople VALUES (1004,'Motika' ,'London' ,.11);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO salespeople VALUES (1007,'Rifkin',' Barcelona', .15);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO salespeople VALUES (1003, 'AxelRod', 'New York ',.10);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO salespeople VALUES (1005 ,'Fran' ,'London' ,.26);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO salespeople VALUES (1008 ,'italy' ,'America' ,.29);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from salespeople;
++------+---------+------------+------+
+| snum | sname   | city       | comm |
++------+---------+------------+------+
+| 1002 | Serres  | San Jose   | 0.13 |
+| 1003 | AxelRod | New York   | 0.10 |
+| 1004 | Motika  | London     | 0.11 |
+| 1005 | Fran    | London     | 0.26 |
+| 1007 | Rifkin  |  Barcelona | 0.15 |
+| 1008 | italy   | America    | 0.29 |
++------+---------+------------+------+
+6 rows in set (0.02 sec)
+
+mysql> create table customerinfo(cnum int primary key,cname varchar(20) not null,city varchar(20) not null,rating int not null,snum int not null,foriegn key(snum) references salespeople(snum));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'key(snum) references salespeople(snum))' at line 1
+mysql> create table customerinfo(cnum int primary key,cname varchar(20) not null,city varchar(20) not null,rating int not null,snum int not null,foreign key(snum) references salespeople(snum));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> : INSERT INTO customer VALUES (2001,'Hoffman', 'London', 100,1001);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ': INSERT INTO customer VALUES (2001,'Hoffman', 'London', 100,1001)' at line 1
+mysql> INSERT INTO customer VALUES (2002,'Giovanni', 'Rome', 200 ,1003);
+ERROR 1146 (42S02): Table 'retail.customer' doesn't exist
+mysql> INSERT INTO customer VALUES (2003, 'Liu' ,'San Jose', 200, 1002);
+ERROR 1146 (42S02): Table 'retail.customer' doesn't exist
+mysql> INSERT INTO customer VALUES (2004, 'Grass', 'Berlin', 300, 1002);
+ERROR 1146 (42S02): Table 'retail.customer' doesn't exist
+mysql> INSERT INTO customer VALUES (2006, 'Clemens', 'London', 100, 1001);
+ERROR 1146 (42S02): Table 'retail.customer' doesn't exist
+mysql> INSERT INTO customer VALUES (2008, 'Cisneros', 'San Jose', 300, 1007);
+ERROR 1146 (42S02): Table 'retail.customer' doesn't exist
+mysql> INSERT INTO customer VALUES (2007, 'Pereira', 'Rome' ,100, 1004);
+ERROR 1146 (42S02): Table 'retail.customer' doesn't exist
+mysql>
+mysql> insert into customerinfovalues(2001,'giovanni','rome',200,1003);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '2001,'giovanni','rome',200,1003)' at line 1
+mysql> insert into customerinfo values(2001,'giovanni','rome',200,1003);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into customerinfo values(2002,'hoffman','london',100,1008);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into customerinfo values(2003,'sherya','london',200,1008);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into customerinfo values(2004,'swathi','italy',400,1005);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into customerinfo values(2005,'jyothi','france',600,1002);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from customerinfo;
++------+----------+--------+--------+------+
+| cnum | cname    | city   | rating | snum |
++------+----------+--------+--------+------+
+| 2001 | giovanni | rome   |    200 | 1003 |
+| 2002 | hoffman  | london |    100 | 1008 |
+| 2003 | sherya   | london |    200 | 1008 |
+| 2004 | swathi   | italy  |    400 | 1005 |
+| 2005 | jyothi   | france |    600 | 1002 |
++------+----------+--------+--------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from salespeople;
++------+---------+------------+------+
+| snum | sname   | city       | comm |
++------+---------+------------+------+
+| 1002 | Serres  | San Jose   | 0.13 |
+| 1003 | AxelRod | New York   | 0.10 |
+| 1004 | Motika  | London     | 0.11 |
+| 1005 | Fran    | London     | 0.26 |
+| 1007 | Rifkin  |  Barcelona | 0.15 |
+| 1008 | italy   | America    | 0.29 |
++------+---------+------------+------+
+6 rows in set (0.00 sec)
+
+mysql> select c.cnum,c.cname,c.city,s.snum,s.sname from salespeople s join  customerinfo c where s.snum=c.snum;
++------+----------+--------+------+---------+
+| cnum | cname    | city   | snum | sname   |
++------+----------+--------+------+---------+
+| 2001 | giovanni | rome   | 1003 | AxelRod |
+| 2002 | hoffman  | london | 1008 | italy   |
+| 2003 | sherya   | london | 1008 | italy   |
+| 2004 | swathi   | italy  | 1005 | Fran    |
+| 2005 | jyothi   | france | 1002 | Serres  |
++------+----------+--------+------+---------+
+5 rows in set (0.11 sec)
+
+mysql> select c.cnum,c.cname,c.city,s.snum,s.sname from salespeople s join  customerinfo c where s.snum=c.snum where rating>100;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where rating>100' at line 1
+mysql> select c.cnum,c.cname,c.city,s.snum,s.sname from salespeople s join  customerinfo c where s.snum=c.snum and rating>100;
++------+----------+--------+------+---------+
+| cnum | cname    | city   | snum | sname   |
++------+----------+--------+------+---------+
+| 2001 | giovanni | rome   | 1003 | AxelRod |
+| 2003 | sherya   | london | 1008 | italy   |
+| 2004 | swathi   | italy  | 1005 | Fran    |
+| 2005 | jyothi   | france | 1002 | Serres  |
++------+----------+--------+------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select c.cnum,c.cname,c.city,c.rating,s.snum,s.sname from salespeople s join  customerinfo c where s.snum=c.snum and rating>100;
++------+----------+--------+--------+------+---------+
+| cnum | cname    | city   | rating | snum | sname   |
++------+----------+--------+--------+------+---------+
+| 2001 | giovanni | rome   |    200 | 1003 | AxelRod |
+| 2003 | sherya   | london |    200 | 1008 | italy   |
+| 2004 | swathi   | italy  |    400 | 1005 | Fran    |
+| 2005 | jyothi   | france |    600 | 1002 | Serres  |
++------+----------+--------+--------+------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select  c.names from customerinfo where c.cname=s.snameom;
+ERROR 1054 (42S22): Unknown column 'c.names' in 'field list'
+mysql> select  c.names from customerinfo where c.cname=s.sname;
+ERROR 1054 (42S22): Unknown column 'c.names' in 'field list'
+mysql> select  c.names from customerinfo where s.snum=c.snum;
+ERROR 1054 (42S22): Unknown column 'c.names' in 'field list'
+mysql> select  c.name from customerinfo where s.snum=c.snum;
+ERROR 1054 (42S22): Unknown column 'c.name' in 'field list'
+mysql> select  cname from customerinfo where s.snum=c.snum;
+ERROR 1054 (42S22): Unknown column 's.snum' in 'where clause'
+mysql> select  cname from customerinfo where snum=snum;
++----------+
+| cname    |
++----------+
+| giovanni |
+| hoffman  |
+| sherya   |
+| swathi   |
+| jyothi   |
++----------+
+5 rows in set (0.00 sec)
+
+mysql> select sname,snum from salespeople 1<(select count(*) from customersinfo where snum=snum);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1<(select count(*) from customersinfo where snum=snum)' at line 1
+mysql> select sname,snum from salespeople, 1<(select count(*) from customersinfo where snum=snum);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1<(select count(*) from customersinfo where snum=snum)' at line 1
+mysql> select cname from customerinfo where city='rome' and rating>100;
++----------+
+| cname    |
++----------+
+| giovanni |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select cname,rating from customerinfo where city='rome' and rating>100;
++----------+--------+
+| cname    | rating |
++----------+--------+
+| giovanni |    200 |
++----------+--------+
+1 row in set (0.00 sec)
+
+mysql> select sname,comm from salespeople where city='london';
++--------+------+
+| sname  | comm |
++--------+------+
+| Motika | 0.11 |
+| Fran   | 0.26 |
++--------+------+
+2 rows in set (0.00 sec)
+
+mysql> select sname,snum,cname,cnum,rating from salespeole join customerinfo where s.snum=c.snum and rating=300;
+ERROR 1146 (42S02): Table 'retail.salespeole' doesn't exist
+mysql> select s.sname,s.snum,c.cname,c.cnum,c.rating from salespeople s join customerinfo c where s.snum=c.snum and rating=300;
+Empty set (0.00 sec)
+
+mysql> select s.sname,s.snum,c.cname,c.cnum,c.rating from salespeople s join customerinfo c where s.snum=c.snum and rating=200;
++---------+------+----------+------+--------+
+| sname   | snum | cname    | cnum | rating |
++---------+------+----------+------+--------+
+| AxelRod | 1003 | giovanni | 2001 |    200 |
+| italy   | 1008 | sherya   | 2003 |    200 |
++---------+------+----------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select cname from customersinfo where rating=200;
+ERROR 1146 (42S02): Table 'retail.customersinfo' doesn't exist
+mysql> select cname from customersinfo where rating==200;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '==200' at line 1
+mysql> select cname from customersinfo where rating<=200;
+ERROR 1146 (42S02): Table 'retail.customersinfo' doesn't exist
+mysql> select cname from customerinfo where rating<=200;
++----------+
+| cname    |
++----------+
+| giovanni |
+| hoffman  |
+| sherya   |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> select cname from customerinfo where rating=200;
++----------+
+| cname    |
++----------+
+| giovanni |
+| sherya   |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> select cname,cnum,sum from salespeople s join customerinfo c where s.snum=c.snum and cnum>1000;
+ERROR 1054 (42S22): Unknown column 'sum' in 'field list'
+mysql> select cname,cnum,snum from salespeople s join customerinfo c where s.snum=c.snum and cnum>1000;
+ERROR 1052 (23000): Column 'snum' in field list is ambiguous
+mysql> select c.cname,c.cnum,s.snum from salespeople s join customerinfo c where s.snum=c.snum and cnum>1000;
++----------+------+------+
+| cname    | cnum | snum |
++----------+------+------+
+| giovanni | 2001 | 1003 |
+| hoffman  | 2002 | 1008 |
+| sherya   | 2003 | 1008 |
+| swathi   | 2004 | 1005 |
+| jyothi   | 2005 | 1002 |
++----------+------+------+
+5 rows in set (0.83 sec)
+
+mysql> select c.cname,c.cnum,s.snum from salespeople s join customerinfo c where s.snum=c.snum and cnum>1000 and sname=serres;
+ERROR 1054 (42S22): Unknown column 'serres' in 'where clause'
+mysql> select c.cname,c.cnum,s.snum from salespeople s join customerinfo c where s.snum=c.snum and cnum>1000 and sname='serres';
++--------+------+------+
+| cname  | cnum | snum |
++--------+------+------+
+| jyothi | 2005 | 1002 |
++--------+------+------+
+1 row in set (0.00 sec)
+
+mysql> select c.cname,c.cnum,s.snum,s.sname from salespeople s join customerinfo c where s.snum=c.snum and cnum>1000 and sname='serres';
++--------+------+------+---------+
+| cname  | cnum | snum | sname   |
++--------+------+------+---------+
+| jyothi | 2005 | 1002 | Serres  |
++--------+------+------+---------+
+1 row in set (0.00 sec)
+
+mysql> select cname,min(rating) from customerinfo;
++----------+-------------+
+| cname    | min(rating) |
++----------+-------------+
+| giovanni |         100 |
++----------+-------------+
+1 row in set (0.12 sec)
+
+mysql> select sname from salespeople like by 'p__i%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'like by 'p__i%'' at line 1
+mysql> select sname from salespeople name like  'p__i%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'like  'p__i%'' at line 1
+mysql> select sname from salespeople  where name like 'p__i%';
+ERROR 1054 (42S22): Unknown column 'name' in 'where clause'
+mysql> select sname from salespeople  where sname like 'p__i%';
+Empty set (0.04 sec)
+
+mysql> select sname from salespeople  where sname like 'A__l%';
++---------+
+| sname   |
++---------+
+| AxelRod |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select snum,sname,comm,city from salespeople;
++------+---------+------+------------+
+| snum | sname   | comm | city       |
++------+---------+------+------------+
+| 1002 | Serres  | 0.13 | San Jose   |
+| 1003 | AxelRod | 0.10 | New York   |
+| 1004 | Motika  | 0.11 | London     |
+| 1005 | Fran    | 0.26 | London     |
+| 1007 | Rifkin  | 0.15 |  Barcelona |
+| 1008 | italy   | 0.29 | America    |
++------+---------+------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select cname from customerinfo where names between a,g;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'g' at line 1
+mysql> select cname from customerinfo where names between('a','g');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select cname from customerinfo where names between a and g;
+ERROR 1054 (42S22): Unknown column 'names' in 'where clause'
+mysql> select cname from customerinfo where cname between a and g;
+ERROR 1054 (42S22): Unknown column 'a' in 'where clause'
+mysql> select cname from customerinfo where cname between 'a' and 'g';
+Empty set (0.10 sec)
+
+mysql> select cname from customerinfo where cname between 'g' and 's';
++----------+
+| cname    |
++----------+
+| giovanni |
+| hoffman  |
+| jyothi   |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> select cname from customerinfo where cname like 'c%';
+Empty set (0.10 sec)
+
+mysql> select cname from customerinfo where cname like 'j%';
++--------+
+| cname  |
++--------+
+| jyothi |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select s.sname,c.rating from salespeople s join customerinfo c where s.snum=c.snum and rating between 0.10 and 0.12;
+Empty set (0.13 sec)
+
+mysql> select s.sname,c.rating,c.comm from salespeople s join customerinfo c where s.snum=c.snum and comm between 0.10 and 0.12;
+ERROR 1054 (42S22): Unknown column 'c.comm' in 'field list'
+mysql> select s.sname,c.rating,comm from salespeople s join customerinfo c where s.snum=c.snum and comm between 0.10 and 0.12;
++---------+--------+------+
+| sname   | rating | comm |
++---------+--------+------+
+| AxelRod |    200 | 0.10 |
++---------+--------+------+
+1 row in set (0.00 sec)
+
+mysql> select s.sname,s.city,comm from salespeople s join customerinfo c where s.snum=c.snum  and city='london' and comm>0.10;
+ERROR 1052 (23000): Column 'city' in where clause is ambiguous
+mysql> select s.sname,s.city,comm from salespeople s join customerinfo c where s.snum=c.snum  and city='london' and comm>0.10;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

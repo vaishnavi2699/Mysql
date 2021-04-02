@@ -1,0 +1,729 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| abc                |
+| mno                |
+| mysql              |
+| performance_schema |
+| retail             |
+| xyz                |
++--------------------+
+7 rows in set (0.08 sec)
+
+mysql> use retail;
+Database changed
+mysql> show tables;
++------------------+
+| Tables_in_retail |
++------------------+
+| customer         |
+| orders           |
+| salespeople      |
++------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from salespeople;
++------+---------+------------+------+
+| snum | sname   | city       | comm |
++------+---------+------------+------+
+| 1001 | Peel    |  London    | 0.12 |
+| 1002 | Serres  | San Jose   | 0.13 |
+| 1003 | AxelRod | New York   | 0.10 |
+| 1004 | Motika  | London     | 0.11 |
+| 1005 | Fran    | London     | 0.26 |
+| 1007 | Rifkin  |  Barcelona | 0.15 |
++------+---------+------------+------+
+6 rows in set (0.10 sec)
+
+mysql> select * from customer;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select s.snum,s.sname,c.cnum,c.cname from salespeople s inner join customer c where s.snum=c.snum;
++------+---------+------+----------+
+| snum | sname   | cnum | cname    |
++------+---------+------+----------+
+| 1001 | Peel    | 2001 | Hoffman  |
+| 1001 | Peel    | 2006 | Clemens  |
+| 1002 | Serres  | 2003 | Liu      |
+| 1002 | Serres  | 2004 | Grass    |
+| 1003 | AxelRod | 2002 | Giovanni |
+| 1004 | Motika  | 2007 | Pereira  |
+| 1007 | Rifkin  | 2008 | Cisneros |
++------+---------+------+----------+
+7 rows in set (0.15 sec)
+
+mysql> select s.snum,s.sname,c.cnum,c.cname,c.rating from salespeople s inner join customer c where s.snum=c.snum and c.rating>100;
++------+---------+------+----------+--------+
+| snum | sname   | cnum | cname    | rating |
++------+---------+------+----------+--------+
+| 1002 | Serres  | 2003 | Liu      |    200 |
+| 1002 | Serres  | 2004 | Grass    |    300 |
+| 1003 | AxelRod | 2002 | Giovanni |    200 |
+| 1007 | Rifkin  | 2008 | Cisneros |    300 |
++------+---------+------+----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select s.snum,s.sname,s.city,c.cnum,c.cname, from salespeople s inner join customer c where s.snum=c.snum and s.city like 'b%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from salespeople s inner join customer c where s.snum=c.snum and s.city like 'b%' at line 1
+mysql> select s.snum,s.sname,s.city,c.cnum,c.cname from salespeople s inner join customer c where s.snum=c.snum and s.city like 'b%';
+Empty set (0.10 sec)
+
+mysql> select s.snum,s.sname,s.city,c.cnum,c.cname from salespeople s inner join customer c where s.snum=c.snum and s.city like 'b%';
+Empty set (0.00 sec)
+
+mysql> select s.snum,s.sname,s.city,c.cnum,c.cname from salespeople s inner join customer c where s.snum=c.snum and s.city like 'n%';
++------+---------+-----------+------+----------+
+| snum | sname   | city      | cnum | cname    |
++------+---------+-----------+------+----------+
+| 1003 | AxelRod | New York  | 2002 | Giovanni |
++------+---------+-----------+------+----------+
+1 row in set (0.00 sec)
+
+mysql> select s.snum,s.sname,s.city,c.cnum,c.cname from salespeople s inner join customer c where s.snum=c.snum and s.city like '%a';
++------+--------+------------+------+----------+
+| snum | sname  | city       | cnum | cname    |
++------+--------+------------+------+----------+
+| 1007 | Rifkin |  Barcelona | 2008 | Cisneros |
++------+--------+------------+------+----------+
+1 row in set (0.02 sec)
+
+mysql> select s.snum,s.sname,s.city,c.cnum,c.cname from salespeople s inner join customer c where s.snum=c.snum and s.city  not like '%n';
++------+---------+------------+------+----------+
+| snum | sname   | city       | cnum | cname    |
++------+---------+------------+------+----------+
+| 1002 | Serres  | San Jose   | 2003 | Liu      |
+| 1002 | Serres  | San Jose   | 2004 | Grass    |
+| 1003 | AxelRod | New York   | 2002 | Giovanni |
+| 1007 | Rifkin  |  Barcelona | 2008 | Cisneros |
++------+---------+------------+------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select s.snum,count(c.cnum) as number_of_customers from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++------+---------------------+
+| snum | number_of_customers |
++------+---------------------+
+| 1001 |                   2 |
+| 1002 |                   2 |
+| 1003 |                   1 |
+| 1004 |                   1 |
+| 1007 |                   1 |
++------+---------------------+
+5 rows in set (0.07 sec)
+
+mysql> select s.snum,count(c.cnum) as number_of_customers,c.cname from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++------+---------------------+----------+
+| snum | number_of_customers | cname    |
++------+---------------------+----------+
+| 1001 |                   2 | Hoffman  |
+| 1002 |                   2 | Liu      |
+| 1003 |                   1 | Giovanni |
+| 1004 |                   1 | Pereira  |
+| 1007 |                   1 | Cisneros |
++------+---------------------+----------+
+5 rows in set (0.01 sec)
+
+mysql> select * from salespeople;
++------+---------+------------+------+
+| snum | sname   | city       | comm |
++------+---------+------------+------+
+| 1001 | Peel    |  London    | 0.12 |
+| 1002 | Serres  | San Jose   | 0.13 |
+| 1003 | AxelRod | New York   | 0.10 |
+| 1004 | Motika  | London     | 0.11 |
+| 1005 | Fran    | London     | 0.26 |
+| 1007 | Rifkin  |  Barcelona | 0.15 |
++------+---------+------------+------+
+6 rows in set (0.00 sec)
+
+mysql> select s.snum,s.sname,max(c.rating) as customer_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++------+---------+-----------------+
+| snum | sname   | customer_rating |
++------+---------+-----------------+
+| 1001 | Peel    |             100 |
+| 1002 | Serres  |             300 |
+| 1003 | AxelRod |             200 |
+| 1004 | Motika  |             100 |
+| 1007 | Rifkin  |             300 |
++------+---------+-----------------+
+5 rows in set (0.13 sec)
+
+mysql> select s.snum,s.sname,max(c.rating) as customer_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum and order by desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by desc' at line 1
+mysql> select s.snum,s.sname,max(c.rating) as customer_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum and order by  customer_rating desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by  customer_rating desc' at line 1
+mysql> select s.snum,s.sname,max(c.rating) as customer_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum and order by c.customer_rating desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by c.customer_rating desc' at line 1
+mysql> select s.snum,s.sname,max(c.rating) as customer_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum and order by c.rating desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by c.rating desc' at line 1
+mysql> select s.snum,s.sname,max(c.rating) as customer_rating from salespeople s inner join customer c where s.snum=c.snum order by c.rating;
++------+-------+-----------------+
+| snum | sname | customer_rating |
++------+-------+-----------------+
+| 1001 | Peel  |             300 |
++------+-------+-----------------+
+1 row in set (0.10 sec)
+
+mysql> select s.snum,s.sname,max(c.rating) as customer_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++------+---------+-----------------+
+| snum | sname   | customer_rating |
++------+---------+-----------------+
+| 1001 | Peel    |             100 |
+| 1002 | Serres  |             300 |
+| 1003 | AxelRod |             200 |
+| 1004 | Motika  |             100 |
+| 1007 | Rifkin  |             300 |
++------+---------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select s.snum,s.sname,min(c.rating) as customer_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++------+---------+-----------------+
+| snum | sname   | customer_rating |
++------+---------+-----------------+
+| 1001 | Peel    |             100 |
+| 1002 | Serres  |             200 |
+| 1003 | AxelRod |             200 |
+| 1004 | Motika  |             100 |
+| 1007 | Rifkin  |             300 |
++------+---------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select s.snum,avg(c.rating) as average_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++------+----------------+
+| snum | average_rating |
++------+----------------+
+| 1001 |       100.0000 |
+| 1002 |       250.0000 |
+| 1003 |       200.0000 |
+| 1004 |       100.0000 |
+| 1007 |       300.0000 |
++------+----------------+
+5 rows in set (0.05 sec)
+
+mysql> select s.snum,avg(c.rating) as average_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum order by average_rating desc;
++------+----------------+
+| snum | average_rating |
++------+----------------+
+| 1007 |       300.0000 |
+| 1002 |       250.0000 |
+| 1003 |       200.0000 |
+| 1001 |       100.0000 |
+| 1004 |       100.0000 |
++------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> select s.snum,avg(c.rating) as average_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum order by average_rating;
++------+----------------+
+| snum | average_rating |
++------+----------------+
+| 1001 |       100.0000 |
+| 1004 |       100.0000 |
+| 1003 |       200.0000 |
+| 1002 |       250.0000 |
+| 1007 |       300.0000 |
++------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> select max(c.rating) as top_rating,min(c.rating) as least_rating,avg(c.rating) as average_rating,count(c.cnum) as num_of_customers from salespeople s inner join  customer c where s.snum=c.snum group by s.snum;
++------------+--------------+----------------+------------------+
+| top_rating | least_rating | average_rating | num_of_customers |
++------------+--------------+----------------+------------------+
+|        100 |          100 |       100.0000 |                2 |
+|        300 |          200 |       250.0000 |                2 |
+|        200 |          200 |       200.0000 |                1 |
+|        100 |          100 |       100.0000 |                1 |
+|        300 |          300 |       300.0000 |                1 |
++------------+--------------+----------------+------------------+
+5 rows in set (0.19 sec)
+
+mysql> select c.cname,c.rating from salespeople s inner join customer c where c.rating=100;
++---------+--------+
+| cname   | rating |
++---------+--------+
+| Hoffman |    100 |
+| Hoffman |    100 |
+| Hoffman |    100 |
+| Hoffman |    100 |
+| Hoffman |    100 |
+| Hoffman |    100 |
+| Clemens |    100 |
+| Clemens |    100 |
+| Clemens |    100 |
+| Clemens |    100 |
+| Clemens |    100 |
+| Clemens |    100 |
+| Pereira |    100 |
+| Pereira |    100 |
+| Pereira |    100 |
+| Pereira |    100 |
+| Pereira |    100 |
+| Pereira |    100 |
++---------+--------+
+18 rows in set (0.00 sec)
+
+mysql> select c.cname,c.rating from salespeople s inner join customer c where s.snum=c.snum and rating=100;
++---------+--------+
+| cname   | rating |
++---------+--------+
+| Hoffman |    100 |
+| Clemens |    100 |
+| Pereira |    100 |
++---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customer;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+7 rows in set (0.04 sec)
+
+mysql> select s.sname,s.snum,c.cnum as number_of_customers from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++---------+------+---------------------+
+| sname   | snum | number_of_customers |
++---------+------+---------------------+
+| Peel    | 1001 |                2001 |
+| Serres  | 1002 |                2003 |
+| AxelRod | 1003 |                2002 |
+| Motika  | 1004 |                2007 |
+| Rifkin  | 1007 |                2008 |
++---------+------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> select s.sname,s.snum,count(c.cnum) as number_of_customers from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++---------+------+---------------------+
+| sname   | snum | number_of_customers |
++---------+------+---------------------+
+| Peel    | 1001 |                   2 |
+| Serres  | 1002 |                   2 |
+| AxelRod | 1003 |                   1 |
+| Motika  | 1004 |                   1 |
+| Rifkin  | 1007 |                   1 |
++---------+------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> select c.cname,c.rating,c.city from salespeople s inner join customer c where s.snum=c.snum and city='san jose' and rating>=200;
+ERROR 1052 (23000): Column 'city' in where clause is ambiguous
+mysql> select c.cname,c.rating,c.city from salespeople s inner join customer c where s.snum=c.snum and c.city='san jose' and c.rating>=200;
++----------+--------+----------+
+| cname    | rating | city     |
++----------+--------+----------+
+| Liu      |    200 | San Jose |
+| Cisneros |    300 | San Jose |
++----------+--------+----------+
+2 rows in set (0.01 sec)
+
+mysql> select s.sname,s.comm,s.city from salespeople s where s.city='london';
++--------+------+--------+
+| sname  | comm | city   |
++--------+------+--------+
+| Motika | 0.11 | London |
+| Fran   | 0.26 | London |
++--------+------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select c.cname,c.cnum,s.snum,s.sname from salespeople s inner join customer c where c.cnum>1000 and s.sname='serres' ;
++----------+------+------+---------+
+| cname    | cnum | snum | sname   |
++----------+------+------+---------+
+| Hoffman  | 2001 | 1002 | Serres  |
+| Giovanni | 2002 | 1002 | Serres  |
+| Liu      | 2003 | 1002 | Serres  |
+| Grass    | 2004 | 1002 | Serres  |
+| Clemens  | 2006 | 1002 | Serres  |
+| Pereira  | 2007 | 1002 | Serres  |
+| Cisneros | 2008 | 1002 | Serres  |
++----------+------+------+---------+
+7 rows in set (0.13 sec)
+
+mysql> select c.cname,c.cnum,s.snum,s.sname from salespeople s inner join customer c where s.snum=c.snum and  c.cnum>1000 and s.sname='serres' ;
++-------+------+------+---------+
+| cname | cnum | snum | sname   |
++-------+------+------+---------+
+| Liu   | 2003 | 1002 | Serres  |
+| Grass | 2004 | 1002 | Serres  |
++-------+------+------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select s.snum,s.sname,c.cname,c.city,count(c.cnum) as number_of_customers from salespeople s inner join customer c where s.snum=c.snum and s.snum=1002 and s.sname='serres';
++------+---------+-------+----------+---------------------+
+| snum | sname   | cname | city     | number_of_customers |
++------+---------+-------+----------+---------------------+
+| 1002 | Serres  | Liu   | San Jose |                   2 |
++------+---------+-------+----------+---------------------+
+1 row in set (0.01 sec)
+
+mysql> select c.cname,c.rating from customer c where c.rating>200;
++----------+--------+
+| cname    | rating |
++----------+--------+
+| Grass    |    300 |
+| Cisneros |    300 |
++----------+--------+
+2 rows in set (0.01 sec)
+
+mysql> select s.sname,s.snum,c.cname,count(c.cnum) as number_of_customers from salespeople s inner join customer c where s.snum=c.snum group by s.snum having count(s.snum)>=2;
++---------+------+---------+---------------------+
+| sname   | snum | cname   | number_of_customers |
++---------+------+---------+---------------------+
+| Peel    | 1001 | Hoffman |                   2 |
+| Serres  | 1002 | Liu     |                   2 |
++---------+------+---------+---------------------+
+2 rows in set (0.03 sec)
+
+mysql> select s.sname,s.scity,c.cname from salespeople s inner join customer c where s.snum=c.snum group by s.scity;
+ERROR 1054 (42S22): Unknown column 's.scity' in 'field list'
+mysql> select s.sname,s.city,c.cname from salespeople s inner join customer c where s.snum=c.snum group by s.city;
++---------+------------+----------+
+| sname   | city       | cname    |
++---------+------------+----------+
+| Rifkin  |  Barcelona | Cisneros |
+| Peel    |  London    | Hoffman  |
+| Motika  | London     | Pereira  |
+| AxelRod | New York   | Giovanni |
+| Serres  | San Jose   | Liu      |
++---------+------------+----------+
+5 rows in set (0.06 sec)
+
+mysql> select * from salespeople;
++------+---------+------------+------+
+| snum | sname   | city       | comm |
++------+---------+------------+------+
+| 1001 | Peel    |  London    | 0.12 |
+| 1002 | Serres  | San Jose   | 0.13 |
+| 1003 | AxelRod | New York   | 0.10 |
+| 1004 | Motika  | London     | 0.11 |
+| 1005 | Fran    | London     | 0.26 |
+| 1007 | Rifkin  |  Barcelona | 0.15 |
++------+---------+------------+------+
+6 rows in set (0.00 sec)
+
+mysql> select * from customer;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select s.sname,s.city,c.cname,c.city from salespeople s inner join customer c where s.snum=c.snum group by c.city;
++---------+-----------+----------+----------+
+| sname   | city      | cname    | city     |
++---------+-----------+----------+----------+
+| Serres  | San Jose  | Grass    | Berlin   |
+| Peel    |  London   | Hoffman  | London   |
+| AxelRod | New York  | Giovanni | Rome     |
+| Serres  | San Jose  | Liu      | San Jose |
++---------+-----------+----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select sname,snum from salespeople s where s.name like 'p__l';
+ERROR 1054 (42S22): Unknown column 's.name' in 'where clause'
+mysql> select s.sname,s.snum from salespeople s where s.sname like 'p__l';
++-------+------+
+| sname | snum |
++-------+------+
+| Peel  | 1001 |
++-------+------+
+1 row in set (0.00 sec)
+
+mysql> select s.snum,s.sname,s.comm,s.city from salespeople;
+ERROR 1054 (42S22): Unknown column 's.snum' in 'field list'
+mysql> select s.snum,s.sname,s.comm,s.city from salespeople s;
++------+---------+------+------------+
+| snum | sname   | comm | city       |
++------+---------+------+------------+
+| 1001 | Peel    | 0.12 |  London    |
+| 1002 | Serres  | 0.13 | San Jose   |
+| 1003 | AxelRod | 0.10 | New York   |
+| 1004 | Motika  | 0.11 | London     |
+| 1005 | Fran    | 0.26 | London     |
+| 1007 | Rifkin  | 0.15 |  Barcelona |
++------+---------+------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select s.sname from salespeople s where s.sname between('A'and'G');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select s.sname from salespeople s where s.sname between('A','G');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select s.sname from salespeople s where s.sname between 'A' AND 'G';
++---------+
+| sname   |
++---------+
+| AxelRod |
+| Fran    |
++---------+
+2 rows in set (0.34 sec)
+
+mysql>  select s.snum,s.sname,max(c.rating) as customer_rating from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++------+---------+-----------------+
+| snum | sname   | customer_rating |
++------+---------+-----------------+
+| 1001 | Peel    |             100 |
+| 1002 | Serres  |             300 |
+| 1003 | AxelRod |             200 |
+| 1004 | Motika  |             100 |
+| 1007 | Rifkin  |             300 |
++------+---------+-----------------+
+5 rows in set (0.12 sec)
+
+mysql>  select s.snum,s.sname,max(c.rating) as top_rating,c.name from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
+ERROR 1054 (42S22): Unknown column 'c.name' in 'field list'
+mysql>  select s.snum,s.sname,max(c.rating) as top_rating,c.cname from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++------+---------+------------+----------+
+| snum | sname   | top_rating | cname    |
++------+---------+------------+----------+
+| 1001 | Peel    |        100 | Hoffman  |
+| 1002 | Serres  |        300 | Liu      |
+| 1003 | AxelRod |        200 | Giovanni |
+| 1004 | Motika  |        100 | Pereira  |
+| 1007 | Rifkin  |        300 | Cisneros |
++------+---------+------------+----------+
+5 rows in set (0.00 sec)
+
+mysql>  select s.snum,s.sname,max(c.rating) as top_rating,c.cname,c.city from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++------+---------+------------+----------+----------+
+| snum | sname   | top_rating | cname    | city     |
++------+---------+------------+----------+----------+
+| 1001 | Peel    |        100 | Hoffman  | London   |
+| 1002 | Serres  |        300 | Liu      | San Jose |
+| 1003 | AxelRod |        200 | Giovanni | Rome     |
+| 1004 | Motika  |        100 | Pereira  | Rome     |
+| 1007 | Rifkin  |        300 | Cisneros | San Jose |
++------+---------+------------+----------+----------+
+5 rows in set (0.00 sec)
+
+mysql>  select s.snum,s.sname,max(c.rating) as top_rating,c.cname,c.city from salespeople s inner join customer c where s.snum=c.snum group by s.snum and order by top_rating;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by top_rating' at line 1
+mysql>  select s.snum,s.sname,max(c.rating) as top_rating,c.cname,c.city from salespeople s inner join customer c where s.snum=c.snum group by s.snum  order by top_rating desc;
++------+---------+------------+----------+----------+
+| snum | sname   | top_rating | cname    | city     |
++------+---------+------------+----------+----------+
+| 1002 | Serres  |        300 | Liu      | San Jose |
+| 1007 | Rifkin  |        300 | Cisneros | San Jose |
+| 1003 | AxelRod |        200 | Giovanni | Rome     |
+| 1001 | Peel    |        100 | Hoffman  | London   |
+| 1004 | Motika  |        100 | Pereira  | Rome     |
++------+---------+------------+----------+----------+
+5 rows in set (0.13 sec)
+
+mysql>  select s.snum,s.sname,max(c.rating) as top_rating,c.cname,count(c.city) as number_of_cities  from salespeople s inner join customer c where s.snum=c.snum group by s.snum order by top_rating desc;
++------+---------+------------+----------+------------------+
+| snum | sname   | top_rating | cname    | number_of_cities |
++------+---------+------------+----------+------------------+
+| 1007 | Rifkin  |        300 | Cisneros |                1 |
+| 1002 | Serres  |        300 | Liu      |                2 |
+| 1003 | AxelRod |        200 | Giovanni |                1 |
+| 1004 | Motika  |        100 | Pereira  |                1 |
+| 1001 | Peel    |        100 | Hoffman  |                2 |
++------+---------+------------+----------+------------------+
+5 rows in set (0.11 sec)
+
+mysql>  select max(c.rating) as top_rating,c.cname,c.city from  customer c where s.snum=c.snum group by c.city;
+ERROR 1054 (42S22): Unknown column 's.snum' in 'where clause'
+mysql>  select max(c.rating) as top_rating,c.cname,c.city from  customer c  group by c.city;
++------------+----------+----------+
+| top_rating | cname    | city     |
++------------+----------+----------+
+|        300 | Grass    | Berlin   |
+|        100 | Hoffman  | London   |
+|        200 | Giovanni | Rome     |
+|        300 | Liu      | San Jose |
++------------+----------+----------+
+4 rows in set (0.12 sec)
+
+mysql> select * from customer;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+7 rows in set (0.03 sec)
+
+mysql>  select max(c.rating) as top_rating,c.cname,c.city from  customer c  group by c.city order by top_rating desc;
++------------+----------+----------+
+| top_rating | cname    | city     |
++------------+----------+----------+
+|        300 | Liu      | San Jose |
+|        300 | Grass    | Berlin   |
+|        200 | Giovanni | Rome     |
+|        100 | Hoffman  | London   |
++------------+----------+----------+
+4 rows in set (0.00 sec)
+
+mysql>  select max(c.rating) as top_rating,c.cname,c.city from  customer c  group by c.city order by top_rating;
++------------+----------+----------+
+| top_rating | cname    | city     |
++------------+----------+----------+
+|        100 | Hoffman  | London   |
+|        200 | Giovanni | Rome     |
+|        300 | Liu      | San Jose |
+|        300 | Grass    | Berlin   |
++------------+----------+----------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> select s.sname,s.city from salespeople s where s.city='barcelona' or s.city='london';
++--------+--------+
+| sname  | city   |
++--------+--------+
+| Motika | London |
+| Fran   | London |
++--------+--------+
+2 rows in set (0.12 sec)
+
+mysql> select s.sname,s.city from salespeople s where s.city='barcelona' and s.city='london';
+Empty set (0.00 sec)
+
+mysql> select s.sname,s.snum,count(c.cnum) as number_of_customers from salespeople s inner join customer c where s.snum=c.snum group by s.snum having count(s.snum)=1;
++---------+------+---------------------+
+| sname   | snum | number_of_customers |
++---------+------+---------------------+
+| AxelRod | 1003 |                   1 |
+| Motika  | 1004 |                   1 |
+| Rifkin  | 1007 |                   1 |
++---------+------+---------------------+
+3 rows in set (0.03 sec)
+
+mysql> select s.sname,s.snum,count(c.cnum) as number_of_customers from salespeople s inner join customer c where s.snum=c.snum group by s.snum having count(s.snum)>=2;
++---------+------+---------------------+
+| sname   | snum | number_of_customers |
++---------+------+---------------------+
+| Peel    | 1001 |                   2 |
+| Serres  | 1002 |                   2 |
++---------+------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> select s.sname,s.snum,count(c.cnum) as number_of_customers from salespeople s inner join customer c where s.snum=c.snum group by s.snum;
++---------+------+---------------------+
+| sname   | snum | number_of_customers |
++---------+------+---------------------+
+| Peel    | 1001 |                   2 |
+| Serres  | 1002 |                   2 |
+| AxelRod | 1003 |                   1 |
+| Motika  | 1004 |                   1 |
+| Rifkin  | 1007 |                   1 |
++---------+------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> select c.cname,c.cnum,c.rating from customer c where c.rating>='serees';
++----------+------+--------+
+| cname    | cnum | rating |
++----------+------+--------+
+| Hoffman  | 2001 |    100 |
+| Giovanni | 2002 |    200 |
+| Liu      | 2003 |    200 |
+| Grass    | 2004 |    300 |
+| Clemens  | 2006 |    100 |
+| Pereira  | 2007 |    100 |
+| Cisneros | 2008 |    300 |
++----------+------+--------+
+7 rows in set, 1 warning (0.13 sec)
+
+mysql> select * from customer;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+7 rows in set (0.01 sec)
+
+mysql> select * from salespeople;
++------+---------+------------+------+
+| snum | sname   | city       | comm |
++------+---------+------------+------+
+| 1001 | Peel    |  London    | 0.12 |
+| 1002 | Serres  | San Jose   | 0.13 |
+| 1003 | AxelRod | New York   | 0.10 |
+| 1004 | Motika  | London     | 0.11 |
+| 1005 | Fran    | London     | 0.26 |
+| 1007 | Rifkin  |  Barcelona | 0.15 |
++------+---------+------------+------+
+6 rows in set (0.00 sec)
+
+mysql>  select c.cname,c.cnum,c.rating from customer c where c.rating>'serees';
++----------+------+--------+
+| cname    | cnum | rating |
++----------+------+--------+
+| Hoffman  | 2001 |    100 |
+| Giovanni | 2002 |    200 |
+| Liu      | 2003 |    200 |
+| Grass    | 2004 |    300 |
+| Clemens  | 2006 |    100 |
+| Pereira  | 2007 |    100 |
+| Cisneros | 2008 |    300 |
++----------+------+--------+
+7 rows in set, 1 warning (0.00 sec)
+
+mysql> select c.cname,c.rating from customer c where c.rating>'rome';
++----------+--------+
+| cname    | rating |
++----------+--------+
+| Hoffman  |    100 |
+| Giovanni |    200 |
+| Liu      |    200 |
+| Grass    |    300 |
+| Clemens  |    100 |
+| Pereira  |    100 |
+| Cisneros |    300 |
++----------+--------+
+7 rows in set, 1 warning (0.00 sec)
+
+mysql> select s.sname,s.comm,c.cname from salespeople s inner join customer c where s.snum=c.snum and c.cname='london';
+Empty set (0.04 sec)
+
+mysql> select s.sname,s.comm,c.cname from salespeople s inner join customer c where s.snum=c.snum and s.sname='london';
+Empty set (0.00 sec)
+
+mysql> select s.sname,s.comm,c.cname from salespeople s inner join customer c where s.snum=c.snum and s.city='london';
++--------+------+---------+
+| sname  | comm | cname   |
++--------+------+---------+
+| Motika | 0.11 | Pereira |
++--------+------+---------+
+1 row in set (0.00 sec)
+
+mysql> select s.sname,s.comm,s.city,c.cname from salespeople s inner join customer c where s.snum=c.snum and s.city='london';
++--------+------+--------+---------+
+| sname  | comm | city   | cname   |
++--------+------+--------+---------+
+| Motika | 0.11 | London | Pereira |
++--------+------+--------+---------+
+1 row in set (0.00 sec)

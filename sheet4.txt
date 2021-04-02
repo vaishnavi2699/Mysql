@@ -1,0 +1,972 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| abc                |
+| mysql              |
+| performance_schema |
+| xyz                |
++--------------------+
+5 rows in set (0.13 sec)
+
+mysql> use xyz;
+Database changed
+mysql> create table studentinfo(name varchar(20),student_id int,marks int,gender varchar(20),city varchar(20),college_name varchar(20));
+Query OK, 0 rows affected (0.37 sec)
+
+mysql> alter table studentinfo as studentsinfo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as studentsinfo' at line 1
+mysql> desc studentinfo;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| name         | varchar(20) | YES  |     | NULL    |       |
+| student_id   | int(11)     | YES  |     | NULL    |       |
+| marks        | int(11)     | YES  |     | NULL    |       |
+| gender       | varchar(20) | YES  |     | NULL    |       |
+| city         | varchar(20) | YES  |     | NULL    |       |
+| college_name | varchar(20) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.07 sec)
+
+mysql> insert into studentinfo values('shiva',6667,45,'male','hyb','pragathi');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into studentinfo values('vyshnavi',6656,56,'female','bangl','vivekananda');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into studentinfo values('navya',6675,56,'female','pune','mnr');
+Query OK, 1 row affected (0.20 sec)
+
+mysql> insert into studentinfo values('hemanth',6689,89,'male','pune','vnr');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into studentinfo values('sahasra',7756,98,'female','bangl','avinash');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into studentinfo values('virat',7756,98,'male','hyb','chaitanya');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into studentinfo values('prashath',7789,100,'female','pune','pragathi');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into studentinfo values('sai',8976,67,'male','bangl','narayana');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into studentinfo values('shivani',6789,80,'female','pune','vivekananda');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from studentinfo;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| prashath |       7789 |   100 | female | pune  | pragathi     |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.01 sec)
+
+mysql> select name,student_id,gender from studentinfo;
++----------+------------+--------+
+| name     | student_id | gender |
++----------+------------+--------+
+| shiva    |       6667 | male   |
+| vyshnavi |       6656 | female |
+| navya    |       6675 | female |
+| hemanth  |       6689 | male   |
+| sahasra  |       7756 | female |
+| virat    |       7756 | male   |
+| prashath |       7789 | female |
+| sai      |       8976 | male   |
+| shivani  |       6789 | female |
++----------+------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select name,student_id,marks,gender from studentinfo;
++----------+------------+-------+--------+
+| name     | student_id | marks | gender |
++----------+------------+-------+--------+
+| shiva    |       6667 |    45 | male   |
+| vyshnavi |       6656 |    56 | female |
+| navya    |       6675 |    56 | female |
+| hemanth  |       6689 |    89 | male   |
+| sahasra  |       7756 |    98 | female |
+| virat    |       7756 |    98 | male   |
+| prashath |       7789 |   100 | female |
+| sai      |       8976 |    67 | male   |
+| shivani  |       6789 |    80 | female |
++----------+------------+-------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select name,marks from studentinfo where name='shiva';
++-------+-------+
+| name  | marks |
++-------+-------+
+| shiva |    45 |
++-------+-------+
+1 row in set (0.02 sec)
+
+mysql> select name,marks,student_id,gender from studentinfo where name='shiva';
++-------+-------+------------+--------+
+| name  | marks | student_id | gender |
++-------+-------+------------+--------+
+| shiva |    45 |       6667 | male   |
++-------+-------+------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select name,marks,student_id,gender from studentinfo where marks<=20 and marks<=100;
+Empty set (0.10 sec)
+
+mysql> select name,marks,student_id,gender from studentinfo where marks>=20 and marks<=100;
++----------+-------+------------+--------+
+| name     | marks | student_id | gender |
++----------+-------+------------+--------+
+| shiva    |    45 |       6667 | male   |
+| vyshnavi |    56 |       6656 | female |
+| navya    |    56 |       6675 | female |
+| hemanth  |    89 |       6689 | male   |
+| sahasra  |    98 |       7756 | female |
+| virat    |    98 |       7756 | male   |
+| prashath |   100 |       7789 | female |
+| sai      |    67 |       8976 | male   |
+| shivani  |    80 |       6789 | female |
++----------+-------+------------+--------+
+9 rows in set (0.10 sec)
+
+mysql> select name,marks,student_id,gender from studentinfo where city='pune' or city='hyb';
++----------+-------+------------+--------+
+| name     | marks | student_id | gender |
++----------+-------+------------+--------+
+| shiva    |    45 |       6667 | male   |
+| navya    |    56 |       6675 | female |
+| hemanth  |    89 |       6689 | male   |
+| virat    |    98 |       7756 | male   |
+| prashath |   100 |       7789 | female |
+| shivani  |    80 |       6789 | female |
++----------+-------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select name,marks,student_id,gender,city from studentinfo where city='pune' or city='hyb';
++----------+-------+------------+--------+------+
+| name     | marks | student_id | gender | city |
++----------+-------+------------+--------+------+
+| shiva    |    45 |       6667 | male   | hyb  |
+| navya    |    56 |       6675 | female | pune |
+| hemanth  |    89 |       6689 | male   | pune |
+| virat    |    98 |       7756 | male   | hyb  |
+| prashath |   100 |       7789 | female | pune |
+| shivani  |    80 |       6789 | female | pune |
++----------+-------+------------+--------+------+
+6 rows in set (0.00 sec)
+
+mysql> select name,marks,student_id,gender,city from studentinfo where city='pune' and marks>=50;
++----------+-------+------------+--------+------+
+| name     | marks | student_id | gender | city |
++----------+-------+------------+--------+------+
+| navya    |    56 |       6675 | female | pune |
+| hemanth  |    89 |       6689 | male   | pune |
+| prashath |   100 |       7789 | female | pune |
+| shivani  |    80 |       6789 | female | pune |
++----------+-------+------------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> select name,marks,student_id,gender,city from studentinfo where city='pune' and marks<=50;
+Empty set (0.00 sec)
+
+mysql> select name,marks,student_id,gender,city from studentinfo where city='pune' and marks>=50;
++----------+-------+------------+--------+------+
+| name     | marks | student_id | gender | city |
++----------+-------+------------+--------+------+
+| navya    |    56 |       6675 | female | pune |
+| hemanth  |    89 |       6689 | male   | pune |
+| prashath |   100 |       7789 | female | pune |
+| shivani  |    80 |       6789 | female | pune |
++----------+-------+------------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> select name,marks,student_id,gender,city from studentinfo where city='pune' and marks<=80;
++---------+-------+------------+--------+------+
+| name    | marks | student_id | gender | city |
++---------+-------+------------+--------+------+
+| navya   |    56 |       6675 | female | pune |
+| shivani |    80 |       6789 | female | pune |
++---------+-------+------------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> select name,marks,student_id,gender,city from studentinfo ;
++----------+-------+------------+--------+-------+
+| name     | marks | student_id | gender | city  |
++----------+-------+------------+--------+-------+
+| shiva    |    45 |       6667 | male   | hyb   |
+| vyshnavi |    56 |       6656 | female | bangl |
+| navya    |    56 |       6675 | female | pune  |
+| hemanth  |    89 |       6689 | male   | pune  |
+| sahasra  |    98 |       7756 | female | bangl |
+| virat    |    98 |       7756 | male   | hyb   |
+| prashath |   100 |       7789 | female | pune  |
+| sai      |    67 |       8976 | male   | bangl |
+| shivani  |    80 |       6789 | female | pune  |
++----------+-------+------------+--------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select name,student_id from studentinfo where student_id=6667 ;
++-------+------------+
+| name  | student_id |
++-------+------------+
+| shiva |       6667 |
++-------+------------+
+1 row in set (0.00 sec)
+
+mysql> select * from studentinfo where student_id=6667;
++-------+------------+-------+--------+------+--------------+
+| name  | student_id | marks | gender | city | college_name |
++-------+------------+-------+--------+------+--------------+
+| shiva |       6667 |    45 | male   | hyb  | pragathi     |
++-------+------------+-------+--------+------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select * from studentinfo where student_id=7756;
++---------+------------+-------+--------+-------+--------------+
+| name    | student_id | marks | gender | city  | college_name |
++---------+------------+-------+--------+-------+--------------+
+| sahasra |       7756 |    98 | female | bangl | avinash      |
+| virat   |       7756 |    98 | male   | hyb   | chaitanya    |
++---------+------------+-------+--------+-------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select name,marks,student_id,gender,city from studentinfo where city='pune' or city='hyb' or city='bangl';
++----------+-------+------------+--------+-------+
+| name     | marks | student_id | gender | city  |
++----------+-------+------------+--------+-------+
+| shiva    |    45 |       6667 | male   | hyb   |
+| vyshnavi |    56 |       6656 | female | bangl |
+| navya    |    56 |       6675 | female | pune  |
+| hemanth  |    89 |       6689 | male   | pune  |
+| sahasra  |    98 |       7756 | female | bangl |
+| virat    |    98 |       7756 | male   | hyb   |
+| prashath |   100 |       7789 | female | pune  |
+| sai      |    67 |       8976 | male   | bangl |
+| shivani  |    80 |       6789 | female | pune  |
++----------+-------+------------+--------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select name,student_id,city from studentinfo where city='pune' or city='hyb' or city='bangl';
++----------+------------+-------+
+| name     | student_id | city  |
++----------+------------+-------+
+| shiva    |       6667 | hyb   |
+| vyshnavi |       6656 | bangl |
+| navya    |       6675 | pune  |
+| hemanth  |       6689 | pune  |
+| sahasra  |       7756 | bangl |
+| virat    |       7756 | hyb   |
+| prashath |       7789 | pune  |
+| sai      |       8976 | bangl |
+| shivani  |       6789 | pune  |
++----------+------------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select * from studentsinfo where city!='punee';
+ERROR 1146 (42S02): Table 'xyz.studentsinfo' doesn't exist
+mysql> select * from studentsinfo where city!='pune';
+ERROR 1146 (42S02): Table 'xyz.studentsinfo' doesn't exist
+mysql> select * from studentinfo where city!='pune';
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
++----------+------------+-------+--------+-------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select name,gender from studentinfo where gender='female';
++----------+--------+
+| name     | gender |
++----------+--------+
+| vyshnavi | female |
+| navya    | female |
+| sahasra  | female |
+| prashath | female |
+| shivani  | female |
++----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> update studentinfo set name='kavya' where name='prashanth';
+Query OK, 0 rows affected (0.15 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from studentinfo;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| prashath |       7789 |   100 | female | pune  | pragathi     |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> update studentinfo set name='kavya' where name='prashath';
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from studentinfo;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| kavya    |       7789 |   100 | female | pune  | pragathi     |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select name,gender from studentinfo where gender='female';
++----------+--------+
+| name     | gender |
++----------+--------+
+| vyshnavi | female |
+| navya    | female |
+| sahasra  | female |
+| kavya    | female |
+| shivani  | female |
++----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select name,gender from studentinfo where gender='male';
++---------+--------+
+| name    | gender |
++---------+--------+
+| shiva   | male   |
+| hemanth | male   |
+| virat   | male   |
+| sai     | male   |
++---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from studentinfo;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| kavya    |       7789 |   100 | female | pune  | pragathi     |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select max(marks) as top_score from studentinfo;
++-----------+
+| top_score |
++-----------+
+|       100 |
++-----------+
+1 row in set (0.03 sec)
+
+mysql> select name, max(marks) as top_score from studentinfo;
++-------+-----------+
+| name  | top_score |
++-------+-----------+
+| shiva |       100 |
++-------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select name, min(marks) as low_score from studentinfo;
++-------+-----------+
+| name  | low_score |
++-------+-----------+
+| shiva |        45 |
++-------+-----------+
+1 row in set (0.00 sec)
+
+mysql> desc studentinfo;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| name         | varchar(20) | YES  |     | NULL    |       |
+| student_id   | int(11)     | YES  |     | NULL    |       |
+| marks        | int(11)     | YES  |     | NULL    |       |
+| gender       | varchar(20) | YES  |     | NULL    |       |
+| city         | varchar(20) | YES  |     | NULL    |       |
+| college_name | varchar(20) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.02 sec)
+
+mysql> alter table studentinfo modify marks float(2);
+Query OK, 9 rows affected (0.61 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> desc studentinfo;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| name         | varchar(20) | YES  |     | NULL    |       |
+| student_id   | int(11)     | YES  |     | NULL    |       |
+| marks        | float       | YES  |     | NULL    |       |
+| gender       | varchar(20) | YES  |     | NULL    |       |
+| city         | varchar(20) | YES  |     | NULL    |       |
+| college_name | varchar(20) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> select name, min(marks) as low_score from studentinfo;
++-------+-----------+
+| name  | low_score |
++-------+-----------+
+| shiva |        45 |
++-------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select name, max(marks) as top_score from studentinfo;
++-------+-----------+
+| name  | top_score |
++-------+-----------+
+| shiva |       100 |
++-------+-----------+
+1 row in set (0.00 sec)
+
+mysql> alter table studentinfo modify marks int;
+Query OK, 9 rows affected (0.33 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> desc studentinfo;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| name         | varchar(20) | YES  |     | NULL    |       |
+| student_id   | int(11)     | YES  |     | NULL    |       |
+| marks        | int(11)     | YES  |     | NULL    |       |
+| gender       | varchar(20) | YES  |     | NULL    |       |
+| city         | varchar(20) | YES  |     | NULL    |       |
+| college_name | varchar(20) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> select name, max(marks) as top_score from studentinfo;
++-------+-----------+
+| name  | top_score |
++-------+-----------+
+| shiva |       100 |
++-------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select name, min(marks) as low_score from studentinfo;
++-------+-----------+
+| name  | low_score |
++-------+-----------+
+| shiva |        45 |
++-------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary),name as average_salary from studentinfo;
+ERROR 1054 (42S22): Unknown column 'salary' in 'field list'
+mysql> select avg(marks),name as average_marks from studentinfo;
++------------+---------------+
+| avg(marks) | average_marks |
++------------+---------------+
+|    76.5556 | shiva         |
++------------+---------------+
+1 row in set (0.10 sec)
+
+mysql> select avg(marks),city as average_marks from studentinfo;
++------------+---------------+
+| avg(marks) | average_marks |
++------------+---------------+
+|    76.5556 | hyb           |
++------------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(marks), as average_marks from studentinfo;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as average_marks from studentinfo' at line 1
+mysql> select avg(marks) as average_marks from studentinfo;
++---------------+
+| average_marks |
++---------------+
+|       76.5556 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select city, avg(marks) as average_marks from studentinfo;
++------+---------------+
+| city | average_marks |
++------+---------------+
+| hyb  |       76.5556 |
++------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select city, avg(marks) as average_marks from studentinfo group by city;
++-------+---------------+
+| city  | average_marks |
++-------+---------------+
+| bangl |       73.6667 |
+| hyb   |       71.5000 |
+| pune  |       81.2500 |
++-------+---------------+
+3 rows in set (0.07 sec)
+
+mysql> select name,city,gender, avg(marks) as average_marks from studentinfo group by gender;
++----------+-------+--------+---------------+
+| name     | city  | gender | average_marks |
++----------+-------+--------+---------------+
+| vyshnavi | bangl | female |       78.0000 |
+| shiva    | hyb   | male   |       74.7500 |
++----------+-------+--------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> select city,gender, avg(marks) as average_marks from studentinfo group by gender;
++-------+--------+---------------+
+| city  | gender | average_marks |
++-------+--------+---------------+
+| bangl | female |       78.0000 |
+| hyb   | male   |       74.7500 |
++-------+--------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> select city,gender from studentinfo group by gender;
++-------+--------+
+| city  | gender |
++-------+--------+
+| bangl | female |
+| hyb   | male   |
++-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from studentinfo;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| kavya    |       7789 |   100 | female | pune  | pragathi     |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from studentinfo order by age;
+ERROR 1054 (42S22): Unknown column 'age' in 'order clause'
+mysql> select * from studentinfo order by marks;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| kavya    |       7789 |   100 | female | pune  | pragathi     |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from studentinfo order by marks desc;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| kavya    |       7789 |   100 | female | pune  | pragathi     |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from studentinfo order by name;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| kavya    |       7789 |   100 | female | pune  | pragathi     |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from studentinfo order by city;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| kavya    |       7789 |   100 | female | pune  | pragathi     |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from studentinfo order by gender;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| kavya    |       7789 |   100 | female | pune  | pragathi     |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from studentinfo order by student_id;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| kavya    |       7789 |   100 | female | pune  | pragathi     |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
++----------+------------+-------+--------+-------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select count(*) from studentinfo;
++----------+
+| count(*) |
++----------+
+|        9 |
++----------+
+1 row in set (0.09 sec)
+
+mysql> insert into studentinfo values('sonu',6623,60,'male','hyb','vivekananda');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from studentinfo;
++----------+------------+-------+--------+-------+--------------+
+| name     | student_id | marks | gender | city  | college_name |
++----------+------------+-------+--------+-------+--------------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  |
+| navya    |       6675 |    56 | female | pune  | mnr          |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          |
+| sahasra  |       7756 |    98 | female | bangl | avinash      |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    |
+| kavya    |       7789 |   100 | female | pune  | pragathi     |
+| sai      |       8976 |    67 | male   | bangl | narayana     |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  |
+| sonu     |       6623 |    60 | male   | hyb   | vivekananda  |
++----------+------------+-------+--------+-------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> select name,college_name from studentinfo group by college_name;
++----------+--------------+
+| name     | college_name |
++----------+--------------+
+| sahasra  | avinash      |
+| virat    | chaitanya    |
+| navya    | mnr          |
+| sai      | narayana     |
+| shiva    | pragathi     |
+| vyshnavi | vivekananda  |
+| hemanth  | vnr          |
++----------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> select student_id,college_name from studentinfo group by college_name;
++------------+--------------+
+| student_id | college_name |
++------------+--------------+
+|       7756 | avinash      |
+|       7756 | chaitanya    |
+|       6675 | mnr          |
+|       8976 | narayana     |
+|       6667 | pragathi     |
+|       6656 | vivekananda  |
+|       6689 | vnr          |
++------------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> select avg(marks) as average_marks from studentinfo group by gender;
++---------------+
+| average_marks |
++---------------+
+|       78.0000 |
+|       71.8000 |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> select gender,avg(marks) as average_marks from studentinfo group by gender;
++--------+---------------+
+| gender | average_marks |
++--------+---------------+
+| female |       78.0000 |
+| male   |       71.8000 |
++--------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> alter table studentinfo add age int;
+Query OK, 10 rows affected (0.39 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from studentinfo;
++----------+------------+-------+--------+-------+--------------+------+
+| name     | student_id | marks | gender | city  | college_name | age  |
++----------+------------+-------+--------+-------+--------------+------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     | NULL |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  | NULL |
+| navya    |       6675 |    56 | female | pune  | mnr          | NULL |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          | NULL |
+| sahasra  |       7756 |    98 | female | bangl | avinash      | NULL |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    | NULL |
+| kavya    |       7789 |   100 | female | pune  | pragathi     | NULL |
+| sai      |       8976 |    67 | male   | bangl | narayana     | NULL |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  | NULL |
+| sonu     |       6623 |    60 | male   | hyb   | vivekananda  | NULL |
++----------+------------+-------+--------+-------+--------------+------+
+10 rows in set (0.00 sec)
+
+mysql> desc studentinfo;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| name         | varchar(20) | YES  |     | NULL    |       |
+| student_id   | int(11)     | YES  |     | NULL    |       |
+| marks        | int(11)     | YES  |     | NULL    |       |
+| gender       | varchar(20) | YES  |     | NULL    |       |
+| city         | varchar(20) | YES  |     | NULL    |       |
+| college_name | varchar(20) | YES  |     | NULL    |       |
+| age          | int(11)     | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> insert into studentinfo values(null,'5432',null,null,'bagl','vnr',45);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> select * from studentinfo;
++----------+------------+-------+--------+-------+--------------+------+
+| name     | student_id | marks | gender | city  | college_name | age  |
++----------+------------+-------+--------+-------+--------------+------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     | NULL |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  | NULL |
+| navya    |       6675 |    56 | female | pune  | mnr          | NULL |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          | NULL |
+| sahasra  |       7756 |    98 | female | bangl | avinash      | NULL |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    | NULL |
+| kavya    |       7789 |   100 | female | pune  | pragathi     | NULL |
+| sai      |       8976 |    67 | male   | bangl | narayana     | NULL |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  | NULL |
+| sonu     |       6623 |    60 | male   | hyb   | vivekananda  | NULL |
+| NULL     |       5432 |  NULL | NULL   | bagl  | vnr          |   45 |
++----------+------------+-------+--------+-------+--------------+------+
+11 rows in set (0.00 sec)
+
+mysql> select * from studentinfo where name is null;
++------+------------+-------+--------+------+--------------+------+
+| name | student_id | marks | gender | city | college_name | age  |
++------+------------+-------+--------+------+--------------+------+
+| NULL |       5432 |  NULL | NULL   | bagl | vnr          |   45 |
++------+------------+-------+--------+------+--------------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from studentinfo where name is not null;
++----------+------------+-------+--------+-------+--------------+------+
+| name     | student_id | marks | gender | city  | college_name | age  |
++----------+------------+-------+--------+-------+--------------+------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     | NULL |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  | NULL |
+| navya    |       6675 |    56 | female | pune  | mnr          | NULL |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          | NULL |
+| sahasra  |       7756 |    98 | female | bangl | avinash      | NULL |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    | NULL |
+| kavya    |       7789 |   100 | female | pune  | pragathi     | NULL |
+| sai      |       8976 |    67 | male   | bangl | narayana     | NULL |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  | NULL |
+| sonu     |       6623 |    60 | male   | hyb   | vivekananda  | NULL |
++----------+------------+-------+--------+-------+--------------+------+
+10 rows in set (0.00 sec)
+
+mysql> select distinct(city) from student;
+ERROR 1146 (42S02): Table 'xyz.student' doesn't exist
+mysql> select distinct(city) from studentinfo;
++-------+
+| city  |
++-------+
+| hyb   |
+| bangl |
+| pune  |
+| bagl  |
++-------+
+4 rows in set (0.00 sec)
+
+mysql> select distinct(gender) from studentinfo;
++--------+
+| gender |
++--------+
+| male   |
+| female |
+| NULL   |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select count(distinct city)from studentinfo;
++----------------------+
+| count(distinct city) |
++----------------------+
+|                    4 |
++----------------------+
+1 row in set (0.14 sec)
+
+mysql> select count(distinct gender)from studentinfo;
++------------------------+
+| count(distinct gender) |
++------------------------+
+|                      2 |
++------------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from studentinfo where marks between 40 and 80;
++----------+------------+-------+--------+-------+--------------+------+
+| name     | student_id | marks | gender | city  | college_name | age  |
++----------+------------+-------+--------+-------+--------------+------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     | NULL |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  | NULL |
+| navya    |       6675 |    56 | female | pune  | mnr          | NULL |
+| sai      |       8976 |    67 | male   | bangl | narayana     | NULL |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  | NULL |
+| sonu     |       6623 |    60 | male   | hyb   | vivekananda  | NULL |
++----------+------------+-------+--------+-------+--------------+------+
+6 rows in set (0.12 sec)
+
+mysql> select * from studentinfo where marks not between 40 and 80;
++---------+------------+-------+--------+-------+--------------+------+
+| name    | student_id | marks | gender | city  | college_name | age  |
++---------+------------+-------+--------+-------+--------------+------+
+| hemanth |       6689 |    89 | male   | pune  | vnr          | NULL |
+| sahasra |       7756 |    98 | female | bangl | avinash      | NULL |
+| virat   |       7756 |    98 | male   | hyb   | chaitanya    | NULL |
+| kavya   |       7789 |   100 | female | pune  | pragathi     | NULL |
++---------+------------+-------+--------+-------+--------------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from studentinfo where marks in(20,34,56,67,60,100);
++----------+------------+-------+--------+-------+--------------+------+
+| name     | student_id | marks | gender | city  | college_name | age  |
++----------+------------+-------+--------+-------+--------------+------+
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  | NULL |
+| navya    |       6675 |    56 | female | pune  | mnr          | NULL |
+| kavya    |       7789 |   100 | female | pune  | pragathi     | NULL |
+| sai      |       8976 |    67 | male   | bangl | narayana     | NULL |
+| sonu     |       6623 |    60 | male   | hyb   | vivekananda  | NULL |
++----------+------------+-------+--------+-------+--------------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from studentinfo where marks not in(20,34,56,67,60,100);
++---------+------------+-------+--------+-------+--------------+------+
+| name    | student_id | marks | gender | city  | college_name | age  |
++---------+------------+-------+--------+-------+--------------+------+
+| shiva   |       6667 |    45 | male   | hyb   | pragathi     | NULL |
+| hemanth |       6689 |    89 | male   | pune  | vnr          | NULL |
+| sahasra |       7756 |    98 | female | bangl | avinash      | NULL |
+| virat   |       7756 |    98 | male   | hyb   | chaitanya    | NULL |
+| shivani |       6789 |    80 | female | pune  | vivekananda  | NULL |
++---------+------------+-------+--------+-------+--------------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from studentinfo where city in(bangl,pune,hyb);
+ERROR 1054 (42S22): Unknown column 'bangl' in 'where clause'
+mysql> select * from studentinfo where city in('bangl','pune','hyb');
++----------+------------+-------+--------+-------+--------------+------+
+| name     | student_id | marks | gender | city  | college_name | age  |
++----------+------------+-------+--------+-------+--------------+------+
+| shiva    |       6667 |    45 | male   | hyb   | pragathi     | NULL |
+| vyshnavi |       6656 |    56 | female | bangl | vivekananda  | NULL |
+| navya    |       6675 |    56 | female | pune  | mnr          | NULL |
+| hemanth  |       6689 |    89 | male   | pune  | vnr          | NULL |
+| sahasra  |       7756 |    98 | female | bangl | avinash      | NULL |
+| virat    |       7756 |    98 | male   | hyb   | chaitanya    | NULL |
+| kavya    |       7789 |   100 | female | pune  | pragathi     | NULL |
+| sai      |       8976 |    67 | male   | bangl | narayana     | NULL |
+| shivani  |       6789 |    80 | female | pune  | vivekananda  | NULL |
+| sonu     |       6623 |    60 | male   | hyb   | vivekananda  | NULL |
++----------+------------+-------+--------+-------+--------------+------+
+10 rows in set (0.00 sec)
+
+mysql>  create table studentinfo(name varchar(20),student_id int primary key not null,marks int,gender varchar(20),city varchar(20),college_name varchar(20));
+ERROR 1050 (42S01): Table 'studentinfo' already exists
+mysql>  create table studentinfo1(name varchar(20),student_id int primary key not null,marks int,gender varchar(20),city varchar(20),college_name varchar(20));
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> desc studentinfo1;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| name         | varchar(20) | YES  |     | NULL    |       |
+| student_id   | int(11)     | NO   | PRI | NULL    |       |
+| marks        | int(11)     | YES  |     | NULL    |       |
+| gender       | varchar(20) | YES  |     | NULL    |       |
+| city         | varchar(20) | YES  |     | NULL    |       |
+| college_name | varchar(20) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql>  insert into studentinfo values('shiva',6667,45,'male','hyb','pragathi');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql>  insert into studentinfo values('shiva',6667,45,'male','hyb','vnr');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql>  create table studentinfo2(name varchar(20),student_id int primary key not null,marks int,gender varchar(20) unique key,city varchar(20),college_name varchar(20));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> desc studentinfo12;
+ERROR 1146 (42S02): Table 'xyz.studentinfo12' doesn't exist
+mysql> desc studentinfo2;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| name         | varchar(20) | YES  |     | NULL    |       |
+| student_id   | int(11)     | NO   | PRI | NULL    |       |
+| marks        | int(11)     | YES  |     | NULL    |       |
+| gender       | varchar(20) | YES  | UNI | NULL    |       |
+| city         | varchar(20) | YES  |     | NULL    |       |
+| college_name | varchar(20) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.10 sec)

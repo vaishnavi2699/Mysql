@@ -1,0 +1,121 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| abc                |
+| mno                |
+| mysql              |
+| performance_schema |
+| retail             |
+| xyz                |
++--------------------+
+7 rows in set (0.31 sec)
+
+mysql> drop database retail;
+Query OK, 2 rows affected (1.04 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| abc                |
+| mno                |
+| mysql              |
+| performance_schema |
+| xyz                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> create database retail;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| abc                |
+| mno                |
+| mysql              |
+| performance_schema |
+| retail             |
+| xyz                |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> use retail;
+Database changed
+mysql> create table studentsinfo(sid int primary key,sname varchar(20) not null,email varchar(20) unique key not null,city varchar(20) not null,gender varchar(20) not null);
+Query OK, 0 rows affected (0.24 sec)
+
+mysql> insert into studentsinfo values(1,'sathish','sathish@gmail.com','hyb','male');
+Query OK, 1 row affected (0.19 sec)
+
+mysql> insert into studentsinfo values(2,'ram','ram@gmail.com','bangl','female');
+Query OK, 1 row affected (0.87 sec)
+
+mysql> insert into studentsinfo values(3,'sai','sai@gmail.com','pune','male');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into studentsinfo values(4,'vyshu','vyshu@gmail.com','jammu','female');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into studentsinfo values(5,'ganesh','ganesh@gmail.com','hyb','male');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into studentsinfo values(6,'manasa','manasa@gmail.com','pune','female');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into studentsinfo values(7,'sandeep','sandeep@gmail.com','vizag','male');
+Query OK, 1 row affected (0.52 sec)
+
+mysql> insert into studentsinfo values(8,'swathi','swathi@gmail.com','vizag','female');
+Query OK, 1 row affected (0.32 sec)
+
+mysql> insert into studentsinfo values(9,'vivek','vivek@gmail.com','kakinada','male');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into studentsinfo values(10,'preethi','preethi@gmail.com','hyb','female');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> desc studentsinfo;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| sid    | int(11)     | NO   | PRI | NULL    |       |
+| sname  | varchar(20) | NO   |     | NULL    |       |
+| email  | varchar(20) | NO   | UNI | NULL    |       |
+| city   | varchar(20) | NO   |     | NULL    |       |
+| gender | varchar(20) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.37 sec)
+
+mysql> select * from studentsinfo;
++-----+---------+-------------------+----------+--------+
+| sid | sname   | email             | city     | gender |
++-----+---------+-------------------+----------+--------+
+|   1 | sathish | sathish@gmail.com | hyb      | male   |
+|   2 | ram     | ram@gmail.com     | bangl    | female |
+|   3 | sai     | sai@gmail.com     | pune     | male   |
+|   4 | vyshu   | vyshu@gmail.com   | jammu    | female |
+|   5 | ganesh  | ganesh@gmail.com  | hyb      | male   |
+|   6 | manasa  | manasa@gmail.com  | pune     | female |
+|   7 | sandeep | sandeep@gmail.com | vizag    | male   |
+|   8 | swathi  | swathi@gmail.com  | vizag    | female |
+|   9 | vivek   | vivek@gmail.com   | kakinada | male   |
+|  10 | preethi | preethi@gmail.com | hyb      | female |
++-----+---------+-------------------+----------+--------+
+10 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> create table acedamic_details(sid int,faculity varchar(20) not null,sem_num int not null,dept varchar(20) not null,score int not null,fid int primary key,foreign key(sid) references studentsinfo(sid));
+Query OK, 0 rows affected (0.27 sec)
+
+mysql> insert into acedamic_deteils(1,'swapna',6,'cse',45,6667);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1,'swapna',6,'cse',45,6667)' at line 1
+mysql>
